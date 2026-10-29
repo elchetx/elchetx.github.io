@@ -130,6 +130,9 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
 .ad small{display:block;color:var(--mute);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .ad ins{min-height:90px}
 .ft{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:36px 0 12px;padding-top:16px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}.ft .b{margin:0}
+.about{max-width:720px;margin:44px auto 0;color:var(--mute);line-height:1.65;font-size:15px}
+.about h2{color:var(--ink);margin:0 0 10px}.about h3{color:var(--ink);font-size:16px;margin:22px 0 6px}
+.about p,.about li{margin:0 0 10px}.about ol{padding-left:20px;margin:0 0 10px}.about b{color:var(--ink)}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
      crossorigin="anonymous"></script>
@@ -158,6 +161,27 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
   <div class="ad" id="ad1" hidden></div>
   <div id="mn"></div>
   <div id="gal"></div>
+  <section class="about" id="about">
+    <h2>Acerca de TierBeat</h2>
+    <p>TierBeat es una página gratuita para hacer tier lists de música: eliges canciones, escuchas un fragmento de cada una y las ordenas en niveles, de la S (las mejores) a la D. Puedes armar una lista con tus artistas o géneros favoritos, descargarla, calificar la de otra persona o publicarla para que la comunidad la vea en "Recién añadidas".</p>
+    <h3>Cómo se usa</h3>
+    <ol>
+      <li>Elige una lista ya hecha (por artista o por género) o crea la tuya buscando canciones por título o artista.</li>
+      <li>Escucha el fragmento de cada canción y arrástrala o tócala para asignarle un nivel.</li>
+      <li>Al terminar, descarga la imagen con tu resultado, guarda la lista en tu navegador o publícala con tu nombre (opcional).</li>
+    </ol>
+    <h3>Consejos para una buena tier list</h3>
+    <p>Pon pocas canciones en el nivel S: si todo es lo mejor, el ranking pierde sentido. Escucha el fragmento completo antes de decidir y evita calificar solo por la fama de la canción. Si armas una lista sobre un artista, incluye también sus temas menos conocidos, porque ahí suelen estar las sorpresas.</p>
+    <h3>Preguntas frecuentes</h3>
+    <p><b>¿Es gratis?</b> Sí. No necesitas cuenta ni registro.</p>
+    <p><b>¿Por qué solo escucho fragmentos?</b> Las canciones se reproducen a través de vistas previas de unos 30 segundos que ofrecen plataformas como Apple Music y Deezer. TierBeat no guarda ni distribuye audio.</p>
+    <p><b>¿Dónde se guardan mis listas?</b> Las que guardas se quedan en tu navegador. Las que publicas se guardan en una base de datos pública para que otras personas puedan verlas. Por eso, publica solo lo que quieras que sea visible.</p>
+    <p><b>¿Puedo borrar una lista que publiqué?</b> Las listas publicadas no se pueden editar desde la página. Si necesitas que quiten una, escríbeme por Ko-fi (ko-fi.com/elchetx).</p>
+    <h3>Privacidad y publicidad</h3>
+    <p>TierBeat no pide ni guarda datos personales como correo o contraseña. El nombre que escribes al publicar una lista es opcional y se muestra públicamente. La página usa servicios de terceros, como la base de datos de Firebase (Google) para la comunidad y redes de publicidad (Google AdSense e Infolinks), que pueden usar cookies para mostrar anuncios. Puedes gestionar o bloquear las cookies desde la configuración de tu navegador.</p>
+    <h3>Contacto</h3>
+    <p>Para dudas, sugerencias o reportar una lista, entra a ko-fi.com/elchetx. TierBeat no está afiliado a Apple, Deezer ni a ninguna plataforma de música; los nombres y portadas pertenecen a sus respectivos dueños.</p>
+  </section>
   <div class="ad" id="ad2" hidden></div>
   <footer class="ft" id="ft" hidden><span>TierBeat</span><button class="b" id="don">Apoyar el proyecto</button></footer>
 </section>
@@ -917,25 +941,30 @@ async function loadCom(more){
       w.append(homeCard({t:x.title,a:x.author,d:(x.author?"por "+x.author:"Anónimo")+(x.createdAt?" · "+ago(x.createdAt):""),s:x.songs,
         c:GR[hs%GR.length],arts:x.songs.map(s=>s.art).filter(safe).slice(0,4),nw:Date.now()-x.createdAt<864e5},"com"));
     });
+    adOn("#ad1");
     if(a.length>=comN){const m=el("button","b alt more","Ver más");m.onclick=()=>loadCom(true);b.append(m)}
   }catch(e){
     const n=el("p","nt","No pude cargar la comunidad. Revisa tu conexión y la URL de la base de datos. "),r=el("button","b alt","Reintentar");
     r.onclick=()=>loadCom();n.append(r);w.replaceWith(n);
   }
 }
+const adDone={};
+function adOn(id){
+  if(adDone[id]||!ADS_CLIENT||!ADS_SLOT)return;adDone[id]=1;
+  const cl=ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-"),b=$(id),i=document.createElement("ins");
+  b.hidden=false;b.append(el("small",null,"Publicidad"));
+  i.className="adsbygoogle";i.style.display="block";i.dataset.adClient=cl;i.dataset.adSlot=ADS_SLOT;
+  i.dataset.adFormat="auto";i.dataset.fullWidthResponsive="true";b.append(i);
+  try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
+}
 function initAds(){
   if(INFOLINKS_PID){window.infolinks_pid=INFOLINKS_PID;window.infolinks_wsid=INFOLINKS_WSID;const t=document.createElement("script");t.async=true;t.src="https://resources.infolinks.com/js/infolinks_main.js";document.head.append(t)}
   if(/^https:\/\//.test(DONATE_URL)){$("#ft").hidden=false;$("#don").onclick=()=>window.open(DONATE_URL,"_blank","noopener")}
-  if(!ADS_CLIENT)return;const cl=ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-");
-  if(!document.querySelector('script[src*="adsbygoogle.js"]')){const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
-  s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(cl);document.head.append(s)}
-  if(!ADS_SLOT)return;
-  ["#ad1","#ad2"].forEach(id=>{
-    const b=$(id),i=document.createElement("ins");b.hidden=false;b.append(el("small",null,"Publicidad"));
-    i.className="adsbygoogle";i.style.display="block";i.dataset.adClient=cl;i.dataset.adSlot=ADS_SLOT;
-    i.dataset.adFormat="auto";i.dataset.fullWidthResponsive="true";b.append(i);
-    try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
-  });
+  if(ADS_CLIENT&&!document.querySelector('script[src*="adsbygoogle.js"]')){
+    const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
+    s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-"));document.head.append(s);
+  }
+  adOn("#ad2");
 }
 renderHome();loadCom();initAds();
 </script>
