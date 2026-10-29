@@ -131,7 +131,8 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
 .ad ins{min-height:90px}
 .ft{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:36px 0 12px;padding-top:16px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}.ft .b{margin:0}
 </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
+     crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
@@ -228,6 +229,8 @@ const DB_URL="https://tierbeat-default-rtdb.firebaseio.com";
    ADS_CLIENT / ADS_SLOT: tus datos de Google AdSense, p. ej. "ca-pub-1234567890123456" y "1234567890". Con solo ADS_CLIENT se carga el código de AdSense (sirve para verificar el sitio); los banners salen cuando también pones ADS_SLOT. */
 const DONATE_URL="https://ko-fi.com/elchetx";
 const ADS_CLIENT="ca-pub-3114572613314166",ADS_SLOT="4917707108";
+/* Infolinks: tu PID y WSID del Publisher Center. Vacío o 0 en PID = desactivado. */
+const INFOLINKS_PID=3449071,INFOLINKS_WSID=0;
 const $=s=>document.querySelector(s);
 const PAL=["#ff7f7f","#ffbf7f","#ffdf7f","#e5ff7f","#9fe8c4","#7fd4ff","#b69cff","#ff9fe0"];
 let made=[],list=null,place={},sel=null,lvls=[],tid=0,cur=null,dur=30,pk=null,drag=null;
@@ -921,10 +924,11 @@ async function loadCom(more){
   }
 }
 function initAds(){
+  if(INFOLINKS_PID){window.infolinks_pid=INFOLINKS_PID;window.infolinks_wsid=INFOLINKS_WSID;const t=document.createElement("script");t.async=true;t.src="https://resources.infolinks.com/js/infolinks_main.js";document.head.append(t)}
   if(/^https:\/\//.test(DONATE_URL)){$("#ft").hidden=false;$("#don").onclick=()=>window.open(DONATE_URL,"_blank","noopener")}
   if(!ADS_CLIENT)return;const cl=ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-");
-  const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
-  s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(cl);document.head.append(s);
+  if(!document.querySelector('script[src*="adsbygoogle.js"]')){const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
+  s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(cl);document.head.append(s)}
   if(!ADS_SLOT)return;
   ["#ad1","#ad2"].forEach(id=>{
     const b=$(id),i=document.createElement("ins");b.hidden=false;b.append(el("small",null,"Publicidad"));
