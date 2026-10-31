@@ -1035,9 +1035,8 @@ async function gRound(){
   $("#gsc").textContent="Ronda "+(G.r+1)+" de "+G.n+" · Puntos: "+G.pts;$("#gms").textContent="Cargando fragmento…";
   let s=null;
   while(!s&&G.i<G.order.length){
-    const c=G.order[G.i++];let r={};
-    if(!safe(c.url))r=await findSong(c);
-    if(r&&(safe(c.url)||safe(r.url)))s=Object.assign(c,r);
+    const c=G.order[G.i++];
+    if(await freshUrl(c))s=c;
   }
   if(!s){gEnd();return}
   G.cur=s;
@@ -1133,13 +1132,28 @@ function brand(v){
 const tau=new Audio();let T=null,tCurBtn=null,tTm=0;
 const tHide=()=>["#tpick","#tset","#tdu","#tend"].forEach(i=>$(i).hidden=true);
 function tStop(){tau.pause();clearTimeout(tTm);if(tCurBtn){tCurBtn.textContent="Escuchar";tCurBtn=null}}
-const tPrev=s=>s._p||(s._p=safe(s.url)?Promise.resolve(s):findSong(s).then(r=>r&&safe(r.url)?Object.assign(s,r):null).catch(()=>null));
-async function tPlay(s,btn){
-  if(tCurBtn===btn){tStop();return}
-  tStop();btn.textContent="Cargando…";
-  const r=await tPrev(s);
-  if(!r){btn.textContent="Sin vista previa";btn.disabled=true;return}
-  tau.src=s.url;await new Promise(x=>{tau.onloadedmetadata=x;setTimeout(x,5000)});
+const urlOk=u=>{const m=/exp=(\d+)/.exec(u||"");return !m||+m[1]*1e3>Date.now()+3e4};
+async function freshUrl(s,force){
+  if(!force&&safe(s.url)&&urlOk(s.url))return true;
+  const r=await findSong({title:s.title,artist:s.artist||""},force||!!s.url).catch(()=>null);
+  if(!r||!safe(r.url))return false;
+  s.url=r.url;if(!safe(s.art))s.art=r.art;
+  if(!(s.end>s.start)){s.start=r.start;s.end=r.end}
+  return true;
+}
+const tPrev=s=>s._p||(s._p=freshUrl(s).then(ok=>ok?s:null));
+async function tPlay(s,btn,retry){
+  if(!retry){if(tCurBtn===btn){tStop();return}tStop()}
+  btn.textContent="Cargando…";
+  if(!await tPrev(s)){btn.textContent="Sin vista previa";btn.disabled=true;return}
+  const ok=await new Promise(res=>{
+    let t;const end=v=>{clearTimeout(t);tau.onerror=null;tau.onloadedmetadata=null;res(v)};
+    t=setTimeout(()=>end(false),8000);tau.onerror=()=>end(false);tau.onloadedmetadata=()=>end(true);tau.src=s.url;
+  });
+  if(!ok){
+    if(!retry){s._p=freshUrl(s,true).then(k=>k?s:null);return tPlay(s,btn,true)}
+    btn.textContent="Sin vista previa";btn.disabled=true;return;
+  }
   try{tau.currentTime=s.start||0}catch(e){}
   try{await tau.play()}catch(e){btn.textContent="Escuchar";return}
   tCurBtn=btn;btn.textContent="Detener";
