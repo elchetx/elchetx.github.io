@@ -112,7 +112,6 @@ button:focus-visible,.card:focus-visible,.zone:focus-visible{outline:3px solid #
 @media(prefers-reduced-motion:reduce){.sk,.lc .im.sk{animation:none}}
 .skc{border-radius:16px;overflow:hidden;background:var(--panel);padding-bottom:16px}
 .skc .i{height:150px}.skc .l{height:14px;border-radius:7px;margin:14px 14px 0}.skc .l.s{width:55%;height:11px}
-/* tema oscuro con acento mostaza */
 :root{color-scheme:dark}
 .lc .im{background:linear-gradient(135deg,#26262a,#161618)}
 button.b{color:#121212}button.b:hover{background:#ffffff}
@@ -133,6 +132,24 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
 .about{max-width:720px;margin:44px auto 0;color:var(--mute);line-height:1.65;font-size:15px}
 .about h2{color:var(--ink);margin:0 0 10px}.about h3{color:var(--ink);font-size:16px;margin:22px 0 6px}
 .about p,.about li{margin:0 0 10px}.about ol{padding-left:20px;margin:0 0 10px}.about b{color:var(--ink)}
+.menu{display:flex;gap:4px;flex-wrap:wrap;margin:12px 0 0}
+.menu button{padding:8px 14px;border:0;background:none;color:var(--mute);border-radius:8px;font-size:15px;font-weight:700;cursor:pointer}
+.menu button:hover{color:var(--ink)}.menu button.on{color:var(--ink);box-shadow:inset 0 -3px 0 var(--hot)}
+select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit}
+.gbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin:6px 0 12px}.gbar i{display:block;height:100%;width:0;background:var(--hot)}
+.opt{display:block;width:100%;text-align:left;padding:14px;margin:8px 0;border-radius:10px;border:2px solid var(--line);background:var(--panel);color:var(--ink);font-size:16px;font-family:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--hot)}.opt:disabled{cursor:default;color:var(--ink)}
+.opt.ok{border-color:#7fd99a;background:#16301f}.opt.no{border-color:#e07a7a;background:#341a1a}
+.srch{width:100%;margin:18px 0 0;padding:13px 16px;border-radius:12px;border:2px solid var(--line);background:var(--panel);color:var(--ink);font-size:16px;font-family:inherit}
+.srch:focus{outline:none;border-color:var(--hot)}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.duel.one{grid-template-columns:minmax(0,260px);justify-content:center}
+.tc{min-width:0;background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.tc .im2{aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,#26262a,#161618);overflow:hidden;margin-bottom:10px}
+.tc img{width:100%;height:100%;object-fit:cover;display:block}
+.tc b{display:block;font-size:16px;overflow-wrap:anywhere}.tc small{display:block;color:var(--mute);margin:2px 0 10px;overflow-wrap:anywhere}
+.tc .b{display:block;width:100%;margin:6px 0 0}
+#trs .b{margin:6px 8px 0 0}
+.shot canvas{width:100%;max-width:540px;border-radius:10px;margin-top:12px;display:block}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
      crossorigin="anonymous"></script>
@@ -140,7 +157,8 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
 <body>
 <header>
   <h1><svg class="lg" viewBox="0 0 64 64" width="76" height="76" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#171d26"/><rect x="9" y="9" width="11" height="10" rx="3" fill="#ff7f7f"/><rect x="22" y="9" width="33" height="10" rx="3" fill="#2a3340"/><circle cx="30" cy="14" r="3.2" fill="#34c3b0"/><circle cx="42" cy="14" r="3.2" fill="#34c3b0"/><rect x="9" y="21" width="11" height="10" rx="3" fill="#ffbf7f"/><rect x="22" y="21" width="33" height="10" rx="3" fill="#2a3340"/><circle cx="30" cy="26" r="3.2" fill="#34c3b0"/><rect x="9" y="33" width="11" height="10" rx="3" fill="#ffdf7f"/><rect x="22" y="33" width="33" height="10" rx="3" fill="#2a3340"/><rect x="9" y="45" width="11" height="10" rx="3" fill="#9fe8c4"/><rect x="22" y="45" width="33" height="10" rx="3" fill="#2a3340"/></svg><span>TierBeat</span></h1>
-  <p>Arma una tier list con fragmentos de tus canciones favoritas y deja que otros las califiquen.</p>
+  <p id="tag">Arma una tier list con fragmentos de tus canciones favoritas y deja que otros las califiquen.</p>
+  <div class="menu" role="navigation" aria-label="Principal"><button id="nv0" class="on">Inicio</button><button id="nv4">De Oído</button><button id="nv5">Torneo</button><button id="nv3">Acerca de</button></div>
 </header>
 <div id="top"><button id="back" hidden>← Inicio</button></div>
 <main>
@@ -157,32 +175,13 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
     </div>
   </div>
   <div class="box" id="pb" hidden><b id="pbt"></b><label for="pbn">Tu nombre (opcional)</label><input type="text" id="pbn" maxlength="40"><button class="b" id="pbg">Publicar</button><button class="b alt" id="pbc">Cancelar</button></div>
+  <input type="search" id="q" class="srch" placeholder="Buscar tier lists por título, artista o autor" aria-label="Buscar tier lists" autocomplete="off">
+  <div id="qr" hidden></div>
   <div id="com"></div>
   <div class="ad" id="ad1" hidden></div>
   <div id="mn"></div>
   <div id="gal"></div>
-  <div class="about" id="about">
-    <h2>Acerca de TierBeat</h2>
-    <p>TierBeat es una página gratuita para hacer tier lists de música: eliges canciones, escuchas un fragmento de cada una y las ordenas en niveles, de la S (las mejores) a la D. Puedes armar una lista con tus artistas o géneros favoritos, descargarla, calificar la de otra persona o publicarla para que la comunidad la vea en "Recién añadidas".</p>
-    <h3>Cómo se usa</h3>
-    <ol>
-      <li>Elige una lista ya hecha (por artista o por género) o crea la tuya buscando canciones por título o artista.</li>
-      <li>Escucha el fragmento de cada canción y arrástrala o tócala para asignarle un nivel.</li>
-      <li>Al terminar, descarga la imagen con tu resultado, guarda la lista en tu navegador o publícala con tu nombre (opcional).</li>
-    </ol>
-    <h3>Consejos para una buena tier list</h3>
-    <p>Pon pocas canciones en el nivel S: si todo es lo mejor, el ranking pierde sentido. Escucha el fragmento completo antes de decidir y evita calificar solo por la fama de la canción. Si armas una lista sobre un artista, incluye también sus temas menos conocidos, porque ahí suelen estar las sorpresas.</p>
-    <h3>Preguntas frecuentes</h3>
-    <p><b>¿Es gratis?</b> Sí. No necesitas cuenta ni registro.</p>
-    <p><b>¿Por qué solo escucho fragmentos?</b> Las canciones se reproducen a través de vistas previas de unos 30 segundos que ofrecen plataformas como Apple Music y Deezer. TierBeat no guarda ni distribuye audio.</p>
-    <p><b>¿Dónde se guardan mis listas?</b> Las que guardas se quedan en tu navegador. Las que publicas se guardan en una base de datos pública para que otras personas puedan verlas. Por eso, publica solo lo que quieras que sea visible.</p>
-    <p><b>¿Puedo borrar una lista que publiqué?</b> Las listas publicadas no se pueden editar desde la página. Si necesitas que quiten una, escríbeme por Ko-fi (ko-fi.com/elchetx).</p>
-    <h3>Privacidad y publicidad</h3>
-    <p>TierBeat no pide ni guarda datos personales como correo o contraseña. El nombre que escribes al publicar una lista es opcional y se muestra públicamente. La página usa servicios de terceros, como la base de datos de Firebase (Google) para la comunidad y redes de publicidad (Google AdSense e Infolinks), que pueden usar cookies para mostrar anuncios. Puedes gestionar o bloquear las cookies desde la configuración de tu navegador.</p>
-    <h3>Contacto</h3>
-    <p>Para dudas, sugerencias o reportar una lista, entra a ko-fi.com/elchetx. TierBeat no está afiliado a Apple, Deezer ni a ninguna plataforma de música; los nombres y portadas pertenecen a sus respectivos dueños.</p>
-  </div>
-  <div class="ad" id="ad2" hidden></div>
+
   <footer class="ft" id="ft" hidden><span>TierBeat</span><button class="b" id="don">Apoyar el proyecto</button></footer>
 </section>
 <section id="s1">
@@ -202,7 +201,7 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
   </div>
   <div class="box" id="fx" hidden>
     <h2 id="sh"></h2>
-    <p class="hint">Mueve la zona amarilla para elegir el fragmento (máximo 20 segundos). Arrastra los bordes blancos para ajustar su largo.</p>
+    <p class="hint">Mueve la zona blanca para elegir el fragmento (máximo 20 segundos). Arrastra los extremos para ajustar su largo.</p>
     <canvas id="wv" width="900" height="110" tabindex="0" aria-label="Selector de fragmento"></canvas>
     <div class="msg" id="rg"></div>
     <button class="b alt" id="pv">Escuchar fragmento</button>
@@ -239,6 +238,91 @@ h1{display:flex;align-items:center;gap:16px}.lg{width:clamp(52px,11vw,76px);heig
     </div>
   </div>
 </section>
+<section id="s3">
+  <div class="about" id="about">
+    <h2>Acerca de TierBeat</h2>
+    <p>TierBeat es una página gratuita para hacer tier lists de música: eliges canciones, escuchas un fragmento de cada una y las ordenas en niveles, de la S (las mejores) a la D. Puedes armar una lista con tus artistas o géneros favoritos, descargarla, calificar la de otra persona o publicarla para que la comunidad la vea en "Recién añadidas". Además tiene dos juegos con tus listas y las de la comunidad: De Oído y Torneo.</p>
+    <h3>Cómo se usa</h3>
+    <ol>
+      <li>Elige una lista ya hecha (por artista o por género) o crea la tuya buscando canciones por título o artista.</li>
+      <li>Escucha el fragmento de cada canción y arrástrala o tócala para asignarle un nivel.</li>
+      <li>Al terminar, descarga la imagen con tu resultado, guarda la lista en tu navegador o publícala con tu nombre (opcional).</li>
+    </ol>
+    <h3>De Oído: adivina la canción</h3>
+    <p>Un juego para probar qué tan bien reconoces las canciones. Eliges una tier list (de la comunidad, una tuya o una de artistas y géneros), decides cuántas rondas jugar y escuchas un fragmento de solo 1 segundo. Si no la reconoces, puedes pedir 3 y luego 5 segundos. Acertar con 1 segundo vale 3 puntos, con 3 segundos vale 2 y con 5 segundos vale 1. Al final puedes crear una imagen con tu resultado para compartirla.</p>
+    <h3>Torneo de canciones</h3>
+    <p>Elige una tier list y el tamaño del torneo: 4, 8, 16, 32 o 64 canciones, según cuántas tenga la lista. Las canciones se enfrentan de dos en dos. Escuchas las dos, eliges tu favorita y avanzas por cuartos, semifinales y final hasta quedarte con tu canción campeona. Al terminar ves tu top 4 y puedes crear una imagen para compartirla.</p>
+    <h3>Consejos para una buena tier list</h3>
+    <p>Pon pocas canciones en el nivel S: si todo es lo mejor, el ranking pierde sentido. Escucha el fragmento completo antes de decidir y evita calificar solo por la fama de la canción. Si armas una lista sobre un artista, incluye también sus temas menos conocidos, porque ahí suelen estar las sorpresas.</p>
+    <h3>Preguntas frecuentes</h3>
+    <p><b>¿Es gratis?</b> Sí. No necesitas cuenta ni registro.</p>
+    <p><b>¿Por qué solo escucho fragmentos?</b> Las canciones se reproducen a través de vistas previas de unos 30 segundos que ofrecen plataformas como Apple Music y Deezer. TierBeat no guarda ni distribuye audio.</p>
+    <p><b>¿Dónde se guardan mis listas?</b> Las que guardas se quedan en tu navegador. Las que publicas se guardan en una base de datos pública para que otras personas puedan verlas. Por eso, publica solo lo que quieras que sea visible.</p>
+    <p><b>¿Puedo borrar una lista que publiqué?</b> Las listas publicadas no se pueden editar desde la página. Si necesitas que quiten una, escríbeme por Ko-fi (ko-fi.com/elchetx).</p>
+    <h3>Privacidad y publicidad</h3>
+    <p>TierBeat no pide ni guarda datos personales como correo o contraseña. El nombre que escribes al publicar una lista es opcional y se muestra públicamente. La página usa servicios de terceros, como la base de datos de Firebase (Google) para la comunidad y redes de publicidad (Google AdSense e Infolinks), que pueden usar cookies para mostrar anuncios. Puedes gestionar o bloquear las cookies desde la configuración de tu navegador.</p>
+    <h3>Contacto</h3>
+    <p>Para dudas, sugerencias o reportar una lista, entra a ko-fi.com/elchetx. TierBeat no está afiliado a Apple, Deezer ni a ninguna plataforma de música; los nombres y portadas pertenecen a sus respectivos dueños.</p>
+  </div>
+  <div class="ad" id="ad2" hidden></div>
+</section>
+<section id="s4">
+  <div id="gpick">
+    <div class="box"><h2>De Oído</h2>
+      <p class="hint">Elige una tier list y escucha un fragmento: primero solo 1 segundo. Si no la reconoces, puedes pedir 3 y luego 5 segundos. Mientras menos escuches, más puntos ganas (3, 2 o 1).</p></div>
+    <input type="search" id="gq" class="srch" placeholder="Buscar una tier list" aria-label="Buscar tier lists" autocomplete="off">
+    <div id="gqr" hidden></div>
+    <div id="gsec"></div>
+  </div>
+  <div class="box" id="gset" hidden>
+    <h2 id="gtt"></h2><p class="hint" id="gtn"></p>
+    <p>¿Cuántas rondas quieres jugar?</p><div id="grs"></div>
+    <button class="b alt" id="gbk">Elegir otra lista</button>
+  </div>
+  <div class="box" id="gpl" hidden>
+    <p class="hint" id="gsc"></p>
+    <div class="gbar"><i id="gb"></i></div>
+    <button class="b" id="gpb">Escuchar de nuevo</button>
+    <button class="b alt" id="gmr">Necesito más tiempo</button>
+    <div id="gop"></div>
+    <div class="msg" id="gms" role="status"></div>
+    <button class="b" id="gnx" hidden>Siguiente</button>
+  </div>
+  <div class="box" id="gen" hidden>
+    <h2>Resultado</h2><p id="gtx"></p>
+    <button class="b" id="gag">Jugar otra vez</button>
+    <button class="b alt" id="gch">Elegir otra lista</button>
+    <button class="b alt" id="gmk">Crear imagen para compartir</button>
+    <div class="shot" id="gout"></div>
+  </div>
+</section>
+<section id="s5">
+  <div id="tpick">
+    <div class="box"><h2>Torneo de canciones</h2>
+      <p class="hint">Elige una tier list y enfrenta sus canciones de dos en dos. Escucha cada una, quédate con tu favorita y sigue avanzando hasta tener a la campeona.</p></div>
+    <input type="search" id="tq" class="srch" placeholder="Buscar una tier list" aria-label="Buscar tier lists" autocomplete="off">
+    <div id="tqr" hidden></div>
+    <div id="tsec"></div>
+  </div>
+  <div class="box" id="tset" hidden>
+    <h2 id="ttt"></h2><p class="hint" id="ttn"></p>
+    <p>¿De cuántas canciones quieres el torneo?</p><div id="trs"></div>
+    <button class="b alt" id="tbk">Elegir otra lista</button>
+  </div>
+  <div id="tdu" hidden>
+    <div class="box"><p class="hint" id="tlb"></p><div class="gbar"><i id="tb"></i></div></div>
+    <div class="duel" id="tcs"></div>
+  </div>
+  <div class="box" id="tend" hidden>
+    <h2>Tu canción campeona</h2>
+    <div class="duel one" id="tcp"></div>
+    <h3>Tu top</h3><ol id="tpd"></ol>
+    <button class="b" id="tag2">Otro torneo con esta lista</button>
+    <button class="b alt" id="tch">Elegir otra lista</button>
+    <button class="b alt" id="tmk">Crear imagen para compartir</button>
+    <div class="shot" id="tout"></div>
+  </div>
+</section>
 </main>
 
 <div id="m2" class="toast" role="status"></div>
@@ -269,16 +353,20 @@ const safe=u=>/^https:\/\/[\w.\/:%~+\-?=&*,@]+$/.test(u||"");
 const ink=c=>{const n=parseInt(c.slice(1),16);return(((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000>140)?"#121212":"#fff"};
 
 const LISTS=[{"t": "Rock en español clásico", "d": "Los himnos que todos se saben", "s": [["Eres", "Café Tacvba"], ["De música ligera", "Soda Stereo"], ["En el Muelle de San Blas", "Maná"], ["La Célula que Explota", "Caifanes"], ["Lamento boliviano", "Enanitos Verdes"], ["Matador", "Los Fabulosos Cadillacs"], ["Persiana Americana", "Soda Stereo"], ["Rayando el Sol", "Maná"], ["Mariposa Traicionera", "Maná"], ["Afuera", "Caifanes"], ["La Ingrata", "Café Tacvba"], ["Cuando Pase el Temblor", "Soda Stereo"], ["Ciudad de la Furia", "Soda Stereo"], ["Clavado en un Bar", "Maná"], ["Oye Mi Amor", "Maná"], ["Vivir Sin Aire", "Maná"], ["Mátenme Porque Me Muero", "Caifanes"], ["La Muralla Verde", "Enanitos Verdes"], ["Los Dinosaurios", "Charly García"], ["La Flaca", "Jarabe de Palo"]], "k": "g", "im": ["Soda Stereo", "Maná", "Café Tacvba", "Caifanes"], "c": ["#ff6a3d", "#7b1fa2"]}, {"t": "Reguetón y latin urbano", "d": "De Gasolina a Bad Bunny", "s": [["Gasolina", "Daddy Yankee"], ["Despacito", "Luis Fonsi"], ["DÁKITI", "Bad Bunny"], ["Tití Me Preguntó", "Bad Bunny"], ["Mi Gente", "J Balvin"], ["Pepas", "Farruko"], ["Danza Kuduro", "Don Omar"], ["Con Calma", "Daddy Yankee"], ["TUSA", "Karol G"], ["Safaera", "Bad Bunny"], ["MIA", "Bad Bunny"], ["Callaíta", "Bad Bunny"], ["Me Porto Bonito", "Bad Bunny"], ["Hawái", "Maluma"], ["Felices los 4", "Maluma"], ["Ay Vamos", "J Balvin"], ["Lo Que Pasó, Pasó", "Daddy Yankee"], ["Bichota", "Karol G"], ["Provenza", "Karol G"], ["Ojitos Lindos", "Bad Bunny"]], "k": "g", "im": ["Daddy Yankee", "Bad Bunny", "J Balvin", "Karol G"], "c": ["#ff2e93", "#ff8a00"]}, {"t": "Regional mexicano", "d": "Corridos, norteño y tumbados", "s": [["Ella Baila Sola", "Eslabon Armado"], ["La Puerta Negra", "Los Tigres del Norte"], ["un x100to", "Grupo Frontera"], ["Adiós Amor", "Christian Nodal"], ["Un Rinconcito en el Cielo", "Ramón Ayala"], ["Sueña", "Intocable"], ["Contrabando y Traición", "Los Tigres del Norte"], ["La Chona", "Los Tucanes de Tijuana"], ["No Se Va", "Grupo Frontera"], ["Soy el Diablo", "Natanael Cano"], ["La Bebé", "Yng Lvcas"], ["El Azul", "Junior H"], ["El Belicón", "Peso Pluma"], ["Bebe Dame", "Fuerza Regida"], ["Primera Cita", "Carin León"], ["Jefe de Jefes", "Los Tigres del Norte"], ["Volver, Volver", "Vicente Fernández"], ["El Rey", "Vicente Fernández"], ["Mujeres Divinas", "Vicente Fernández"], ["Amorcito Corazón", "Pedro Infante"]], "k": "g", "im": ["Peso Pluma", "Los Tigres del Norte", "Grupo Frontera", "Christian Nodal"], "c": ["#2e9e5b", "#d4a017"]}, {"t": "Fiesta latina", "d": "Cumbia, salsa y pop para bailar", "s": [["Como la Flor", "Selena"], ["Bidi Bidi Bom Bom", "Selena"], ["17 Años", "Los Ángeles Azules"], ["Suavemente", "Elvis Crespo"], ["Vivir Mi Vida", "Marc Anthony"], ["La Camisa Negra", "Juanes"], ["Bailando", "Enrique Iglesias"], ["La Tortura", "Shakira"], ["Hips Don't Lie", "Shakira"], ["La Bamba", "Ritchie Valens"], ["Waka Waka", "Shakira"], ["Livin' la Vida Loca", "Ricky Martin"], ["La Copa de la Vida", "Ricky Martin"], ["Macarena", "Los del Río"], ["La Vida Es un Carnaval", "Celia Cruz"], ["Pedro Navaja", "Rubén Blades"], ["Bamboleo", "Gipsy Kings"], ["El Cantante", "Héctor Lavoe"], ["Conga", "Gloria Estefan"], ["La Bomba", "Azul Azul"]], "k": "g", "im": ["Selena", "Marc Anthony", "Shakira", "Ricky Martin"], "c": ["#ff4d6d", "#ffb703"]}, {"t": "Baladas para llorar", "d": "Desamor en español", "s": [["Mientes", "Camila"], ["Todo Cambió", "Camila"], ["Hasta Que Te Conocí", "Juan Gabriel"], ["Amor Eterno", "Juan Gabriel"], ["Si No Te Hubieras Ido", "Marco Antonio Solís"], ["Corazón Partío", "Alejandro Sanz"], ["El Triste", "José José"], ["Tu Cárcel", "Los Bukis"], ["Ahora Quién", "Marc Anthony"], ["Eres Mi Religión", "Maná"], ["La Incondicional", "Luis Miguel"], ["Contigo en la Distancia", "Luis Miguel"], ["Cuando Calienta el Sol", "Luis Miguel"], ["Y Tú Te Vas", "Chayanne"], ["Torero", "Chayanne"], ["Obsesión", "Aventura"], ["Querida", "Juan Gabriel"], ["Cuando Me Enamoro", "Enrique Iglesias"], ["Azul", "Cristian Castro"], ["Por Amarte Así", "Cristian Castro"]], "k": "g", "im": ["Luis Miguel", "Juan Gabriel", "Camila", "José José"], "c": ["#4a6cf7", "#a855f7"]}, {"t": "Pop de los 2000", "d": "Los éxitos de la radio de antes", "s": [["Toxic", "Britney Spears"], ["Umbrella", "Rihanna"], ["Crazy in Love", "Beyoncé"], ["Hey Ya!", "OutKast"], ["Mr. Brightside", "The Killers"], ["Since U Been Gone", "Kelly Clarkson"], ["Poker Face", "Lady Gaga"], ["Rolling in the Deep", "Adele"], ["Viva la Vida", "Coldplay"], ["I Gotta Feeling", "The Black Eyed Peas"], ["Bad Romance", "Lady Gaga"], ["Complicated", "Avril Lavigne"], ["Yeah!", "Usher"], ["Lose Yourself", "Eminem"], ["In Da Club", "50 Cent"], ["Bleeding Love", "Leona Lewis"], ["Fix You", "Coldplay"], ["Boulevard of Broken Dreams", "Green Day"], ["Misery Business", "Paramore"], ["Seven Nation Army", "The White Stripes"]], "k": "g", "im": ["Britney Spears", "Rihanna", "Beyoncé", "Coldplay"], "c": ["#ff79c6", "#6c5ce7"]}, {"t": "Pop de los 2020", "d": "Lo que suena hoy", "s": [["Blinding Lights", "The Weeknd"], ["As It Was", "Harry Styles"], ["Flowers", "Miley Cyrus"], ["Anti-Hero", "Taylor Swift"], ["good 4 u", "Olivia Rodrigo"], ["Levitating", "Dua Lipa"], ["bad guy", "Billie Eilish"], ["Espresso", "Sabrina Carpenter"], ["Die With A Smile", "Lady Gaga"], ["Cruel Summer", "Taylor Swift"], ["drivers license", "Olivia Rodrigo"], ["Watermelon Sugar", "Harry Styles"], ["Don't Start Now", "Dua Lipa"], ["Save Your Tears", "The Weeknd"], ["Stay", "The Kid LAROI"], ["Heat Waves", "Glass Animals"], ["Easy on Me", "Adele"], ["vampire", "Olivia Rodrigo"], ["Kill Bill", "SZA"], ["Industry Baby", "Lil Nas X"]], "k": "g", "im": ["The Weeknd", "Dua Lipa", "Olivia Rodrigo", "Harry Styles"], "c": ["#00c2d1", "#7c3aed"]}, {"t": "Rock clásico", "d": "Guitarras que no pasan de moda", "s": [["Bohemian Rhapsody", "Queen"], ["Hotel California", "Eagles"], ["Stairway to Heaven", "Led Zeppelin"], ["Smoke on the Water", "Deep Purple"], ["Back In Black", "AC/DC"], ["Sweet Child O' Mine", "Guns N' Roses"], ["Don't Stop Believin'", "Journey"], ["Livin' on a Prayer", "Bon Jovi"], ["Come Together", "The Beatles"], ["Another Brick in the Wall, Pt. 2", "Pink Floyd"], ["Highway to Hell", "AC/DC"], ["We Will Rock You", "Queen"], ["Don't Stop Me Now", "Queen"], ["Paint It Black", "The Rolling Stones"], ["Hey Jude", "The Beatles"], ["Dream On", "Aerosmith"], ["Whole Lotta Love", "Led Zeppelin"], ["Free Bird", "Lynyrd Skynyrd"], ["Wish You Were Here", "Pink Floyd"], ["Purple Haze", "Jimi Hendrix"]], "k": "g", "im": ["Queen", "Led Zeppelin", "AC/DC", "Pink Floyd"], "c": ["#e63946", "#1d1d3a"]}, {"t": "Clásicos de los 80 y 90", "d": "Para toda la familia", "s": [["Take On Me", "a-ha"], ["Billie Jean", "Michael Jackson"], ["Girls Just Want to Have Fun", "Cyndi Lauper"], ["Africa", "Toto"], ["Every Breath You Take", "The Police"], ["Sweet Dreams (Are Made of This)", "Eurythmics"], ["Wake Me Up Before You Go-Go", "Wham!"], ["Smells Like Teen Spirit", "Nirvana"], ["Wonderwall", "Oasis"], ["Losing My Religion", "R.E.M."], ["Like a Prayer", "Madonna"], ["Thriller", "Michael Jackson"], ["Beat It", "Michael Jackson"], ["Purple Rain", "Prince"], ["Under Pressure", "Queen"], ["Baby One More Time", "Britney Spears"], ["Wannabe", "Spice Girls"], ["Creep", "Radiohead"], ["Zombie", "The Cranberries"], ["Basket Case", "Green Day"]], "k": "g", "im": ["Michael Jackson", "Madonna", "Nirvana", "a-ha"], "c": ["#f72585", "#3a0ca3"]}, {"t": "Bad Bunny: sus mejores canciones", "d": "El conejo malo, de punta a punta", "s": [["Tití Me Preguntó", "Bad Bunny"], ["DÁKITI", "Bad Bunny"], ["Me Porto Bonito", "Bad Bunny"], ["Ojitos Lindos", "Bad Bunny"], ["Callaíta", "Bad Bunny"], ["Yo Perreo Sola", "Bad Bunny"], ["Efecto", "Bad Bunny"], ["Moscow Mule", "Bad Bunny"], ["Neverita", "Bad Bunny"], ["Después de la Playa", "Bad Bunny"], ["Monaco", "Bad Bunny"], ["BAILE INoLVIDABLE", "Bad Bunny"], ["NUEVAYoL", "Bad Bunny"], ["DtMF", "Bad Bunny"], ["Yonaguni", "Bad Bunny"], ["Amorfoda", "Bad Bunny"], ["Soy Peor", "Bad Bunny"], ["Vete", "Bad Bunny"], ["Safaera", "Bad Bunny"], ["MIA", "Bad Bunny"]], "k": "a", "im": ["Bad Bunny"], "c": ["#0ea5a4", "#ff4d8d"]}, {"t": "Calle 13: sus mejores canciones", "d": "Rap, protesta y fiesta", "s": [["Atrévete-te-te", "Calle 13"], ["Latinoamérica", "Calle 13"], ["Pa'l Norte", "Calle 13"], ["Un Beso de Desayuno", "Calle 13"], ["Tango del Pecado", "Calle 13"], ["Muerte en Hawaii", "Calle 13"], ["La Perla", "Calle 13"], ["Cumbia de los Aburridos", "Calle 13"], ["Ojos Color Sol", "Calle 13"], ["Fiesta de Locos", "Calle 13"], ["No Hay Nadie Como Tú", "Calle 13"], ["Calma Pueblo", "Calle 13"], ["El Baile de los Pobres", "Calle 13"], ["Digo Lo Que Pienso", "Calle 13"], ["Vamo' a Portarnos Mal", "Calle 13"], ["Electro Movimiento", "Calle 13"]], "k": "a", "im": ["Calle 13"], "c": ["#f59e0b", "#b91c1c"]}, {"t": "Shakira: sus mejores canciones", "d": "Dos décadas de éxitos", "s": [["Hips Don't Lie", "Shakira"], ["La Tortura", "Shakira"], ["Waka Waka", "Shakira"], ["Ojos Así", "Shakira"], ["Whenever, Wherever", "Shakira"], ["Estoy Aquí", "Shakira"], ["Antología", "Shakira"], ["Inevitable", "Shakira"], ["Objection (Tango)", "Shakira"], ["Loca", "Shakira"], ["She Wolf", "Shakira"], ["Can't Remember to Forget You", "Shakira"], ["Chantaje", "Shakira"], ["Me Enamoré", "Shakira"], ["Perro Fiel", "Shakira"], ["La Bicicleta", "Shakira"], ["Te Felicito", "Shakira"], ["Ciega, Sordomuda", "Shakira"], ["Suerte", "Shakira"], ["Monotonía", "Shakira"]], "k": "a", "im": ["Shakira"], "c": ["#f5b301", "#c2410c"]}, {"t": "Mon Laferte: sus mejores canciones", "d": "Cumbia, bolero y desamor", "s": [["Tu Falta de Querer", "Mon Laferte"], ["Mi Buen Amor", "Mon Laferte"], ["Amárrame", "Mon Laferte"], ["Amor Completo", "Mon Laferte"], ["Si Tú Me Quisieras", "Mon Laferte"], ["Pa' Dónde Se Fue", "Mon Laferte"], ["Tormento", "Mon Laferte"], ["El Beso", "Mon Laferte"], ["Antes de Ti", "Mon Laferte"], ["No Te Fumes Mi Mariguana", "Mon Laferte"], ["La Trenza", "Mon Laferte"], ["Primaveral", "Mon Laferte"], ["Cielito de Abril", "Mon Laferte"], ["Flaco", "Mon Laferte"], ["Que Sí", "Mon Laferte"], ["Yo Te Qui", "Mon Laferte"]], "k": "a", "im": ["Mon Laferte"], "c": ["#be123c", "#4c1d95"]}, {"t": "Sabrina Carpenter: sus mejores canciones", "d": "Pop con actitud", "s": [["Espresso", "Sabrina Carpenter"], ["Please Please Please", "Sabrina Carpenter"], ["Taste", "Sabrina Carpenter"], ["Bed Chem", "Sabrina Carpenter"], ["Juno", "Sabrina Carpenter"], ["Feather", "Sabrina Carpenter"], ["Nonsense", "Sabrina Carpenter"], ["Because I Liked a Boy", "Sabrina Carpenter"], ["Sue Me", "Sabrina Carpenter"], ["Thumbs", "Sabrina Carpenter"], ["Skin", "Sabrina Carpenter"], ["Manchild", "Sabrina Carpenter"], ["Tears", "Sabrina Carpenter"], ["Good Graces", "Sabrina Carpenter"], ["Busy Woman", "Sabrina Carpenter"], ["Read Your Mind", "Sabrina Carpenter"], ["Can't Blame a Girl for Trying", "Sabrina Carpenter"], ["Why", "Sabrina Carpenter"]], "k": "a", "im": ["Sabrina Carpenter"], "c": ["#fb7185", "#fbbf24"]}, {"t": "Kevin Kaarl: sus mejores canciones", "d": "Folk nostálgico desde Chihuahua", "s": [["San Lucas", "Kevin Kaarl"], ["Te Quiero Tanto", "Kevin Kaarl"], ["Colapso", "Kevin Kaarl"], ["Vámonos a Marte", "Kevin Kaarl"], ["Me Va a Costar", "Kevin Kaarl"], ["Como Me Encanta", "Kevin Kaarl"], ["Abrazado a Ti", "Kevin Kaarl"], ["Si Supieras", "Kevin Kaarl"], ["Amor Viejo", "Kevin Kaarl"], ["Búscame Otra Vez", "Kevin Kaarl"], ["Y Está Bien", "Kevin Kaarl"], ["Esta Noche", "Kevin Kaarl"], ["Dime", "Kevin Kaarl"], ["Siente Más", "Kevin Kaarl"], ["Llora Más", "Kevin Kaarl"], ["Nunca Te Supe Cuidar", "Kevin Kaarl"], ["Quédate", "Kevin Kaarl"]], "k": "a", "im": ["Kevin Kaarl"], "c": ["#65a30d", "#0f766e"]}, {"t": "Ed Maverick: sus mejores canciones", "d": "Folk para llorar en tu cuarto", "s": [["Fuentes de Ortiz", "Ed Maverick"], ["Acurrucar", "Ed Maverick"], ["Ropa de Bazar", "Ed Maverick"], ["Karpe Diem", "Ed Maverick"], ["Del Río", "Ed Maverick"], ["Quiero", "Ed Maverick"], ["Siempre Estoy Pa' Ti", "Ed Maverick"], ["WRU", "Ed Maverick"], ["Gracias", "Ed Maverick"], ["Mantra II", "Ed Maverick"], ["Culpa", "Ed Maverick"], ["Arcoíris", "Ed Maverick"], ["Nadie Va a Pensar en Ti Mejor Que Yo", "Ed Maverick"], ["No Hay Problema", "Ed Maverick"], ["Violento", "Ed Maverick"], ["Valor de Más", "Ed Maverick"]], "k": "a", "im": ["Ed Maverick"], "c": ["#ca8a04", "#7c2d12"]}, {"t": "Taylor Swift: sus mejores canciones", "d": "De Love Story a Fortnight", "s": [["Anti-Hero", "Taylor Swift"], ["Cruel Summer", "Taylor Swift"], ["Shake It Off", "Taylor Swift"], ["Blank Space", "Taylor Swift"], ["Love Story", "Taylor Swift"], ["You Belong with Me", "Taylor Swift"], ["Bad Blood", "Taylor Swift"], ["Style", "Taylor Swift"], ["Lover", "Taylor Swift"], ["Willow", "Taylor Swift"], ["Cardigan", "Taylor Swift"], ["All Too Well", "Taylor Swift"], ["Delicate", "Taylor Swift"], ["Ready for It?", "Taylor Swift"], ["Look What You Made Me Do", "Taylor Swift"], ["Fortnight", "Taylor Swift"], ["Karma", "Taylor Swift"], ["Bejeweled", "Taylor Swift"], ["Lavender Haze", "Taylor Swift"], ["Wildest Dreams", "Taylor Swift"]], "k": "a", "im": ["Taylor Swift"], "c": ["#a78bfa", "#f472b6"]}, {"t": "Soda Stereo: sus mejores canciones", "d": "Los clásicos del rock argentino", "s": [["De Música Ligera", "Soda Stereo"], ["Persiana Americana", "Soda Stereo"], ["Cuando Pase el Temblor", "Soda Stereo"], ["Ciudad de la Furia", "Soda Stereo"], ["Trátame Suavemente", "Soda Stereo"], ["Nada Personal", "Soda Stereo"], ["Signos", "Soda Stereo"], ["Un Millón de Años Luz", "Soda Stereo"], ["Prófugos", "Soda Stereo"], ["En el Séptimo Día", "Soda Stereo"], ["Té para Tres", "Soda Stereo"], ["Lo Que Sangra (La Cúpula)", "Soda Stereo"], ["Primavera 0", "Soda Stereo"], ["Corazón Delator", "Soda Stereo"], ["Sobredosis de TV", "Soda Stereo"], ["Fue", "Soda Stereo"], ["Ella Usó Mi Cabeza Como un Revólver", "Soda Stereo"]], "k": "a", "im": ["Soda Stereo"], "c": ["#06b6d4", "#1e3a8a"]}, {"t": "Selena: sus mejores canciones", "d": "La reina del Tex-Mex", "s": [["Como la Flor", "Selena"], ["Bidi Bidi Bom Bom", "Selena"], ["Amor Prohibido", "Selena"], ["I Could Fall in Love", "Selena"], ["Dreaming of You", "Selena"], ["No Me Queda Más", "Selena"], ["Techno Cumbia", "Selena"], ["La Carcacha", "Selena"], ["Baila Esta Cumbia", "Selena"], ["Fotos y Recuerdos", "Selena"], ["Si Una Vez", "Selena"], ["Tú Solo Tú", "Selena"], ["El Chico del Apartamento 512", "Selena"], ["Ya Ves", "Selena"]], "k": "a", "im": ["Selena"], "c": ["#ec4899", "#f59e0b"]}];
-/* pestañas */
 function showView(v){
-  [0,1,2].forEach(i=>$("#s"+i).classList.toggle("on",i===v));
-  $("#back").hidden=v===0;if(v===0){au.pause();if(Date.now()-lastCom>6e4)loadCom()}window.scrollTo(0,0);
+  [0,1,2,3,4,5].forEach(i=>$("#s"+i).classList.toggle("on",i===v));
+  $("#nv0").classList.toggle("on",v<3);$("#nv3").classList.toggle("on",v===3);$("#nv4").classList.toggle("on",v===4);$("#nv5").classList.toggle("on",v===5);
+  if(v!==4){gau.pause();clearTimeout(gT)}
+  brand(v);if(v!==5)tStop();if(v===5)tMenu();
+  if(v===4)gMenu();if(v===0)adOn("#ad1");if(v===3)adOn("#ad2");
+  try{history.replaceState(null,"",v===3?"#acerca":v===4?"#adivina":v===5?"#torneo":location.pathname+location.search)}catch(e){}
+  $("#back").hidden=v===0||v>=3;if(v===0){au.pause();if(Date.now()-lastCom>6e4)loadCom()}window.scrollTo(0,0);
 }
 $("#back").onclick=()=>showView(0);
+$("#nv0").onclick=()=>showView(0);$("#nv3").onclick=()=>showView(3);$("#nv4").onclick=()=>showView(4);$("#nv5").onclick=()=>showView(5);
 $("#new").onclick=()=>showView(1);
 $("#open").onclick=()=>$("#lf").click();
 
-/* reproducción de fragmentos */
 async function play(s,btn){
   if(!s.url&&!s.src){
     if(btn)btn.textContent="…";
@@ -313,7 +401,6 @@ function mark(on){
   if(on&&actBtn){actBtn.textContent="⏸︎";actBtn.parentElement.classList.add("pl")}
 }
 
-/* búsqueda (iTunes Search, vía JSONP) */
 function search(){
   const q=$("#q").value.trim();if(!q)return;
   say("#m0","Buscando…");$("#res").textContent="";
@@ -342,7 +429,6 @@ function showRes(r){
   });
 }
 
-/* selector visual de fragmento */
 async function peaks(url){
   try{
     const AC=window.AudioContext||window.webkitAudioContext,ac=new AC();
@@ -404,7 +490,6 @@ $("#add").onclick=()=>{
   say("#m0","Agregada. Busca otra canción para seguir.");drawMine();
 };
 
-/* mi lista */
 function drawMine(){
   const box=$("#mine");box.textContent="";$("#cnt").textContent=made.length;
   if(!made.length){box.append(el("p","hint","Aún no hay canciones. Busca la primera arriba."));return}
@@ -430,7 +515,6 @@ $("#go").onclick=()=>{
   mineSave(d);open_(d);
 };
 
-/* calificar */
 function parseTB(txt){
   const d=JSON.parse(txt);
   if(d.app!=="tierbeat"||!Array.isArray(d.songs))throw 0;
@@ -693,7 +777,6 @@ $("#ta").onclick=()=>{
 };
 $("#rs").onclick=()=>{place={};sel=null;draw();say("#m3","")};
 
-/* exportar como imagen */
 const loadImg=u=>new Promise(r=>{
   if(!safe(u))return r(null);
   const i=new Image();i.crossOrigin="anonymous";i.onload=()=>r(i);i.onerror=()=>r(null);i.src=u;
@@ -773,7 +856,6 @@ $("#mk").onclick=async()=>{
 };
 
 
-/* página principal */
 const IMGK="tierbeat_img_v1",MK="tierbeat_mine_v1";
 let imgs={};try{imgs=JSON.parse(localStorage.getItem(IMGK)||"{}")}catch(e){}
 function mineGet(){try{return JSON.parse(localStorage.getItem(MK)||"[]")}catch(e){return[]}}
@@ -807,7 +889,7 @@ function lim(fn){return new Promise(res=>{
 })}
 let busy=false;
 async function openCard(d){if(busy)return;busy=true;try{await open_(d)}finally{busy=false}}
-function homeCard(L,mode){
+function homeCard(L,mode,pick){
   const mk=!!mode,c=el("div","lc"),im=el("div","im"),srcs=mk?L.arts:L.im;
   c.tabIndex=0;c.setAttribute("role","button");c.setAttribute("aria-label",L.t);
   c.style.setProperty("--a","#d0d0d4");
@@ -826,7 +908,7 @@ function homeCard(L,mode){
   c.append(im,tx);
   const go=()=>openCard({app:"tierbeat",title:L.t,author:mk?L.a:"TierBeat",
     songs:mk?L.s.map(x=>({...x})):L.s.map((x,k)=>({id:"b"+L.i+"_"+k,title:x[0],artist:x[1]}))});
-  c.onclick=go;c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}};
+  const act=pick||go;c.onclick=act;c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act()}};
   if(mode==="mine"){
     const x=el("button","x","✕");x.setAttribute("aria-label","Quitar de mis listas");
     x.onclick=e=>{e.stopPropagation();mineDel(L.t)};c.append(x);
@@ -858,7 +940,6 @@ function renderHome(){
   grid(g,"Por artista",mk("a"));grid(g,"Por género",mk("g"));
 }
 
-/* comunidad: publicar y ver lo más reciente */
 const MIN_PUB=5,PUB_COOL=20000,CLK="tierbeat_comlocal_v1",PBK="tierbeat_pub_v1";
 let lastCom=0,lastPub=0,comN=4,pubBusy=false;
 const dbu=()=>DB_URL.trim().replace(/\/+$/,"");
@@ -941,16 +1022,18 @@ async function loadCom(more){
       w.append(homeCard({t:x.title,a:x.author,d:(x.author?"por "+x.author:"Anónimo")+(x.createdAt?" · "+ago(x.createdAt):""),s:x.songs,
         c:GR[hs%GR.length],arts:x.songs.map(s=>s.art).filter(safe).slice(0,4),nw:Date.now()-x.createdAt<864e5},"com"));
     });
-    adOn("#ad1");
+    comHas=true;adOn("#ad1");
     if(a.length>=comN){const m=el("button","b alt more","Ver más");m.onclick=()=>loadCom(true);b.append(m)}
   }catch(e){
     const n=el("p","nt","No pude cargar la comunidad. Revisa tu conexión y la URL de la base de datos. "),r=el("button","b alt","Reintentar");
     r.onclick=()=>loadCom();n.append(r);w.replaceWith(n);
   }
 }
-const adDone={};
+const adDone={};let comHas=false;
 function adOn(id){
-  if(adDone[id]||!ADS_CLIENT||!ADS_SLOT)return;adDone[id]=1;
+  if(adDone[id]||!ADS_CLIENT||!ADS_SLOT)return;
+  if(!$(id).closest("section").classList.contains("on")||(id==="#ad1"&&!comHas))return;
+  adDone[id]=1;
   const cl=ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-"),b=$(id),i=document.createElement("ins");
   b.hidden=false;b.append(el("small",null,"Publicidad"));
   i.className="adsbygoogle";i.style.display="block";i.dataset.adClient=cl;i.dataset.adSlot=ADS_SLOT;
@@ -964,9 +1047,268 @@ function initAds(){
     const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
     s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(ADS_CLIENT.trim().replace(/^(ca-)?/,"ca-"));document.head.append(s);
   }
-  adOn("#ad2");
 }
 renderHome();loadCom();initAds();
+const gau=new Audio(),GS=[1,3,5];let G=null,gT=0,gComC=null,gComT=0;
+const gHide=()=>["#gpick","#gset","#gpl","#gen"].forEach(i=>$(i).hidden=true);
+const gCard=(t,au,s,when)=>()=>homeCard({t,a:au,d:(au?"por "+au:"Anónimo")+(when?" · "+when:""),s,arts:s.map(x=>x.art).filter(safe).slice(0,4)},"com",()=>gStart(t,s));
+async function gMenu(){
+  gHide();$("#gpick").hidden=false;$("#gq").value="";$("#gqr").hidden=true;$("#gsec").hidden=false;
+  const box=$("#gsec");box.textContent="";const cm=el("div"),mn=el("div"),bi=el("div");box.append(cm,mn,bi);
+  grid(mn,"Mis tier lists",mineGet().filter(m=>m.songs.length>=4).map(m=>gCard(m.title,m.author||"",m.songs.map(x=>({...x})),"")));
+  const mk=k=>LISTS.map((L,i)=>({...L,i})).filter(L=>L.k===k).map(L=>()=>homeCard(L,false,()=>gStart(L.t,L.s.map(x=>({title:x[0],artist:x[1]})))));
+  grid(bi,"Por artista",mk("a"));grid(bi,"Por género",mk("g"));
+  try{
+    if(!gComC||Date.now()-gComT>6e4){gComC=await comList(12);gComT=Date.now()}
+    grid(cm,"Recién añadidas por la comunidad",gComC.filter(x=>x.songs.length>=4).map(x=>gCard(x.title,x.author||"",x.songs.map(s=>({...s})),x.createdAt?ago(x.createdAt):"")));
+  }catch(e){}
+}
+function gStart(t,songs){
+  const n=songs.length,w=$("#grs");G={t,src:songs};
+  gHide();$("#gset").hidden=false;window.scrollTo(0,0);
+  $("#gtt").textContent=t;$("#gtn").textContent=n+" canciones en esta lista.";w.textContent="";
+  [...[5,10,15,20,30,40].filter(x=>x<n),n].forEach(k=>{const b=el("button","b",k===n?"Todas ("+n+")":""+k);b.onclick=()=>gGo(k);w.append(b)});
+}
+function gGo(k){
+  G={...G,order:G.src.map(x=>({...x})).sort(()=>Math.random()-.5),n:k,i:0,r:0,score:0,pts:0};
+  gHide();$("#gpl").hidden=false;gRound();
+}
+async function gRound(){
+  G.stage=0;G.fix=0;$("#gnx").hidden=true;$("#gop").textContent="";$("#gpb").disabled=true;$("#gmr").hidden=true;
+  $("#gsc").textContent="Ronda "+(G.r+1)+" de "+G.n+" · Puntos: "+G.pts;$("#gms").textContent="Cargando fragmento…";
+  let s=null;
+  while(!s&&G.i<G.order.length){
+    const c=G.order[G.i++];let r={};
+    if(!safe(c.url))r=await findSong(c);
+    if(r&&(safe(c.url)||safe(r.url)))s=Object.assign(c,r);
+  }
+  if(!s){gEnd();return}
+  G.cur=s;
+  const lbl=o=>o.title+(o.artist?" — "+o.artist:"");
+  const opts=[s,...G.src.filter(x=>x.title!==s.title).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  opts.forEach(o=>{const b=el("button","opt",lbl(o));b.dataset.ok=o.title===s.title?"1":"";b.onclick=()=>gPick(b);$("#gop").append(b)});
+  $("#gpb").disabled=false;gMoreBtn();$("#gms").textContent="";gListen();
+}
+function gMoreBtn(){const b=$("#gmr");b.hidden=G.stage>=GS.length-1;b.textContent="Necesito más tiempo ("+GS[Math.min(G.stage+1,GS.length-1)]+" s)"}
+async function gListen(){
+  const s=G.cur,secs=GS[G.stage];gau.pause();clearTimeout(gT);gau.src=s.url;
+  await new Promise(r=>{gau.onloadedmetadata=r;setTimeout(r,5000)});
+  try{gau.currentTime=s.start||0}catch(e){}
+  try{await gau.play()}catch(e){$("#gms").textContent="Toca «Escuchar de nuevo» para reproducir.";return}
+  const b=$("#gb");b.style.transition="none";b.style.width="0";void b.offsetWidth;
+  b.style.transition="width "+secs+"s linear";b.style.width="100%";
+  gT=setTimeout(()=>gau.pause(),secs*1000);
+}
+gau.onerror=()=>{if(G&&G.cur&&!G.fix){G.fix=1;findSong(G.cur,true).then(r=>{if(r){Object.assign(G.cur,r);gListen()}})}};
+$("#gpb").onclick=gListen;
+$("#gmr").onclick=()=>{if(G.stage<GS.length-1){G.stage++;gMoreBtn();gListen()}};
+function gPick(b){
+  gau.pause();clearTimeout(gT);const s=G.cur,all=[...$("#gop").children],ok=!!b.dataset.ok;
+  all.forEach(x=>x.disabled=true);
+  const p=ok?3-G.stage:0;
+  if(ok){G.score++;G.pts+=p;b.classList.add("ok")}else{b.classList.add("no");const c=all.find(x=>x.dataset.ok);if(c)c.classList.add("ok")}
+  $("#gms").textContent=ok?"¡Correcto! +"+p+(p===1?" punto":" puntos"):"Era «"+s.title+"».";
+  $("#gmr").hidden=true;$("#gsc").textContent="Ronda "+(G.r+1)+" de "+G.n+" · Puntos: "+G.pts;
+  G.r++;$("#gnx").hidden=false;$("#gnx").textContent=G.r>=G.n?"Ver resultado":"Siguiente";
+}
+$("#gnx").onclick=()=>G.r>=G.n?gEnd():gRound();
+function gEnd(){
+  gau.pause();clearTimeout(gT);gHide();$("#gen").hidden=false;$("#gout").textContent="";$("#gmk").hidden=!G.r;
+  $("#gtx").textContent=G.r?"Acertaste "+G.score+" de "+G.r+" y sumaste "+G.pts+" de "+3*G.r+" puntos posibles."+(G.r<G.n?" No pude cargar más canciones de esa lista.":""):"No pude cargar canciones de esa lista. Revisa tu conexión e inténtalo otra vez.";
+}
+$("#gbk").onclick=gMenu;$("#gch").onclick=gMenu;$("#gag").onclick=()=>gStart(G.t,G.src);
+
+const nz=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+let qCom=null,qComT=0,qFail=false,qTok=0,qTm=0,gqTok=0,gqTm=0;
+async function qItems(){
+  if(!qCom||Date.now()-qComT>6e4){
+    try{qCom=(await comList(50)).map(x=>({kind:"c",t:x.title,au:x.author||"",songs:x.songs,createdAt:x.createdAt}));qFail=false}catch(e){qCom=[];qFail=true}
+    qComT=Date.now();
+  }
+  const all=[...qCom,...mineGet().map(m=>({kind:"m",t:m.title,au:m.author||"",songs:m.songs})),...LISTS.map((L,i)=>({kind:"b",L:{...L,i},t:L.t,au:"",songs:L.s.map(x=>({title:x[0],artist:x[1]}))}))];
+  const seen=new Set();return all.filter(it=>{const k=nz(it.t)+"|"+it.songs.length;if(seen.has(k))return false;seen.add(k);return true});
+}
+function qFind(items,q){
+  const full=nz(q),k=full.split(/\s+/).filter(Boolean);
+  return items.filter(it=>{const h=nz([it.t,it.au,...it.songs.map(s=>s.artist)].join(" "));return k.every(w=>h.includes(w))})
+    .sort((a,b)=>nz(b.t).includes(full)-nz(a.t).includes(full));
+}
+const qCards=(items,pick)=>items.map(it=>()=>{
+  const act=pick?()=>pick(it):null;
+  if(it.kind==="b")return homeCard(it.L,false,act);
+  return homeCard({t:it.t,a:it.au,d:(it.au?"por "+it.au:it.kind==="m"?"Hecha por ti":"Anónimo")+(it.createdAt?" · "+ago(it.createdAt):""),s:it.songs,
+    arts:it.songs.map(x=>x.art).filter(safe).slice(0,4)},it.kind==="m"&&!pick?"mine":"com",act);
+});
+async function runQ(){
+  const q=$("#q").value.trim(),r=$("#qr"),parts=["#com","#mn","#gal"].map($),a1=$("#ad1"),my=++qTok;
+  if(q.length<2){r.hidden=true;r.textContent="";parts.forEach(e=>e.hidden=false);a1.hidden=!adDone["#ad1"];return}
+  parts.forEach(e=>e.hidden=true);a1.hidden=true;r.hidden=false;r.textContent="";r.append(el("p","nt","Buscando…"));
+  const items=qFind(await qItems(),q);if(my!==qTok)return;
+  r.textContent="";
+  if(!items.length){r.append(el("p","nt","No encontré tier lists con «"+q+"». Prueba con otro título, artista o autor."+(qFail?" No pude consultar la comunidad.":"")));return}
+  grid(r,"Resultados ("+items.length+")",qCards(items,null));
+  r.append(el("p","hint","Busqué en tus listas, las de artistas y géneros y las últimas 50 publicadas por la comunidad."));
+}
+$("#q").oninput=()=>{clearTimeout(qTm);qTm=setTimeout(runQ,250)};
+$("#gq").oninput=()=>{clearTimeout(gqTm);gqTm=setTimeout(async()=>{
+  const q=$("#gq").value.trim(),r=$("#gqr"),d=$("#gsec"),my=++gqTok;
+  if(q.length<2){r.hidden=true;d.hidden=false;return}
+  d.hidden=true;r.hidden=false;r.textContent="";r.append(el("p","nt","Buscando…"));
+  const items=qFind(await qItems(),q).filter(x=>x.songs.length>=4);if(my!==gqTok)return;
+  r.textContent="";
+  if(!items.length){r.append(el("p","nt","No encontré listas con «"+q+"». Se necesitan al menos 4 canciones."));return}
+  grid(r,"Resultados ("+items.length+")",qCards(items,it=>gStart(it.t,it.songs.map(s=>({...s})))));
+},250)};
+
+const GAME="De Oído",TBN=$("h1 span").textContent,TBI=$(".lg").innerHTML,TBT=$("#tag").textContent,TBTL=document.title;
+const GAMEI='<rect width="64" height="64" rx="14" fill="#171d26"/>'+[[18,"#ff7f7f"],[34,"#ffbf7f"],[46,"#ffdf7f"],[28,"#9fe8c4"],[14,"#7fd4ff"]]
+  .map((b,i)=>'<rect x="'+(8.5+i*10)+'" y="'+(32-b[0]/2)+'" width="7" height="'+b[0]+'" rx="3.5" fill="'+b[1]+'"/>').join("");
+const TORNI='<rect width="64" height="64" rx="14" fill="#171d26"/><g transform="translate(-2,-2)" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16h14M10 28h14M24 16v12M10 40h14M10 52h14M24 40v12" stroke="#9fe8c4"/><path d="M24 22h12M24 46h12M36 22v24" stroke="#7fd4ff"/><path d="M36 34h16" stroke="#ffdf7f"/></g><circle cx="52" cy="32" r="4.5" fill="#ff7f7f"/>';
+const BRS={4:{n:GAME,i:GAMEI,t:"Escucha un fragmento de 1 segundo y adivina cuál canción es."},5:{n:"Torneo",i:TORNI,t:"Enfrenta canciones de dos en dos hasta quedarte con tu favorita."}};
+function brand(v){
+  const g=BRS[v];
+  $(".lg").innerHTML=g?g.i:TBI;$("h1 span").textContent=g?g.n:TBN;
+  $("#tag").textContent=g?g.t:TBT;
+  document.title=g?g.n+" — TierBeat":TBTL;
+  const f=$('link[rel="icon"]');if(f)f.href="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'+(g?g.i:TBI)+'</svg>');
+}
+
+const tau=new Audio();let T=null,tCurBtn=null,tTm=0;
+const tHide=()=>["#tpick","#tset","#tdu","#tend"].forEach(i=>$(i).hidden=true);
+function tStop(){tau.pause();clearTimeout(tTm);if(tCurBtn){tCurBtn.textContent="Escuchar";tCurBtn=null}}
+const tPrev=s=>s._p||(s._p=safe(s.url)?Promise.resolve(s):findSong(s).then(r=>r&&safe(r.url)?Object.assign(s,r):null).catch(()=>null));
+async function tPlay(s,btn){
+  if(tCurBtn===btn){tStop();return}
+  tStop();btn.textContent="Cargando…";
+  const r=await tPrev(s);
+  if(!r){btn.textContent="Sin vista previa";btn.disabled=true;return}
+  tau.src=s.url;await new Promise(x=>{tau.onloadedmetadata=x;setTimeout(x,5000)});
+  try{tau.currentTime=s.start||0}catch(e){}
+  try{await tau.play()}catch(e){btn.textContent="Escuchar";return}
+  tCurBtn=btn;btn.textContent="Detener";
+  tTm=setTimeout(tStop,(s.end>s.start?Math.min(12,s.end-s.start):12)*1000);
+}
+function tCard(s,pick){
+  const c=el("div","tc"),im=el("div","im2");
+  const art=()=>{if(safe(s.art)&&!im.firstChild){const g=new Image();g.alt="";g.onerror=()=>g.remove();g.src=s.art;im.append(g)}};
+  art();
+  const pl=el("button","b alt","Escuchar");pl.onclick=()=>tPlay(s,pl);
+  c.append(im,el("b",null,s.title),el("small",null,s.artist||""),pl);
+  if(pick){const ch=el("button","b","Elegir");ch.onclick=pick;c.append(ch)}
+  tPrev(s).then(r=>{if(r)art()});
+  return c;
+}
+const tName=n=>n===2?"Final":n===4?"Semifinales":n===8?"Cuartos de final":n===16?"Octavos de final":"Ronda de "+n;
+function tStart(t,songs){
+  T={t,src:songs};tHide();$("#tset").hidden=false;window.scrollTo(0,0);
+  $("#ttt").textContent=t;$("#ttn").textContent=songs.length+" canciones en esta lista. Si eliges menos, se escogen al azar.";
+  const w=$("#trs");w.textContent="";
+  [4,8,16,32,64].filter(x=>x<=songs.length).forEach(k=>{const b=el("button","b",k+" canciones");b.onclick=()=>tGo(k);w.append(b)});
+}
+function tGo(k){
+  T={t:T.t,src:T.src,size:k,cur:T.src.map(x=>({...x})).sort(()=>Math.random()-.5).slice(0,k),next:[],out:[],i:0,done:0};
+  tHide();$("#tdu").hidden=false;tDuel();
+}
+function tDuel(){
+  tStop();const n=T.cur.length,a=T.cur[T.i*2],b=T.cur[T.i*2+1];
+  $("#tlb").textContent=tName(n)+" · Duelo "+(T.i+1)+" de "+n/2;
+  $("#tb").style.width=(T.done/(T.size-1)*100)+"%";
+  const w=$("#tcs");w.textContent="";w.append(tCard(a,()=>tPick(a,b)),tCard(b,()=>tPick(b,a)));
+}
+function tPick(w,l){
+  tStop();T.next.push(w);T.out.push(l);T.done++;T.i++;
+  if(T.i*2>=T.cur.length){
+    if(T.next.length===1){tEnd(T.next[0]);return}
+    T.cur=T.next;T.next=[];T.i=0;
+  }
+  tDuel();
+}
+function tEnd(ch){
+  tStop();tHide();$("#tend").hidden=false;$("#tout").textContent="";T.ch=ch;window.scrollTo(0,0);
+  const cp=$("#tcp");cp.textContent="";cp.append(tCard(ch,null));
+  const l=$("#tpd");l.textContent="";
+  [ch,...T.out.slice().reverse()].slice(0,4).forEach(s=>l.append(el("li",null,s.title+(s.artist?" — "+s.artist:""))));
+}
+function mkPicker(I,pick){
+  let tok=0,tm=0,cache=null,ct=0;
+  const card=(t,au,s,when)=>()=>homeCard({t,a:au,d:(au?"por "+au:"Anónimo")+(when?" · "+when:""),s,arts:s.map(x=>x.art).filter(safe).slice(0,4)},"com",()=>pick(t,s.map(x=>({...x}))));
+  $(I.q).oninput=()=>{clearTimeout(tm);tm=setTimeout(async()=>{
+    const q=$(I.q).value.trim(),r=$(I.qr),d=$(I.sec),my=++tok;
+    if(q.length<2){r.hidden=true;d.hidden=false;return}
+    d.hidden=true;r.hidden=false;r.textContent="";r.append(el("p","nt","Buscando…"));
+    const items=qFind(await qItems(),q).filter(x=>x.songs.length>=4);if(my!==tok)return;
+    r.textContent="";
+    if(!items.length){r.append(el("p","nt","No encontré listas con «"+q+"». Se necesitan al menos 4 canciones."));return}
+    grid(r,"Resultados ("+items.length+")",qCards(items,it=>pick(it.t,it.songs.map(s=>({...s})))));
+  },250)};
+  return async function(){
+    $(I.q).value="";$(I.qr).hidden=true;$(I.sec).hidden=false;
+    const box=$(I.sec);box.textContent="";const cm=el("div"),mn=el("div"),bi=el("div");box.append(cm,mn,bi);
+    grid(mn,"Mis tier lists",mineGet().filter(m=>m.songs.length>=4).map(m=>card(m.title,m.author||"",m.songs,"")));
+    const mk=k=>LISTS.map((L,i)=>({...L,i})).filter(L=>L.k===k).map(L=>()=>homeCard(L,false,()=>pick(L.t,L.s.map(x=>({title:x[0],artist:x[1]})))));
+    grid(bi,"Por artista",mk("a"));grid(bi,"Por género",mk("g"));
+    try{
+      if(!cache||Date.now()-ct>6e4){cache=await comList(12);ct=Date.now()}
+      grid(cm,"Recién añadidas por la comunidad",cache.filter(x=>x.songs.length>=4).map(x=>card(x.title,x.author||"",x.songs,x.createdAt?ago(x.createdAt):"")));
+    }catch(e){}
+  };
+}
+const tPk=mkPicker({q:"#tq",qr:"#tqr",sec:"#tsec"},tStart);
+const tMenu=()=>{tHide();$("#tpick").hidden=false;return tPk()};
+$("#tbk").onclick=tMenu;$("#tch").onclick=tMenu;$("#tag2").onclick=()=>tStart(T.t,T.src);
+
+const cutT=(g,t,w)=>{if(g.measureText(t).width<=w)return t;while(t.length>1&&g.measureText(t+"…").width>w)t=t.slice(0,-1);return t+"…"};
+const slug=t=>t.toLowerCase().replace(/[^a-z0-9áéíóúñ]+/g,"-").replace(/^-|-$/g,"")||"tierbeat";
+async function shareImg(box,file,title,sp){
+  try{await Promise.all([document.fonts.load("400 20px 'TierBeat Sans'"),document.fonts.load("700 20px 'TierBeat Sans'")])}catch(e){}
+  box.textContent="";box.append(el("p","hint","Creando imagen…"));
+  const W=1080,P=60,SF="'TierBeat Sans','Segoe UI',system-ui,sans-serif",RF="'TierBeat Sans',Inter,'Segoe UI',system-ui,sans-serif";
+  const [art,ic]=await Promise.all([sp.art&&safe(sp.art)?loadImg(sp.art):null,loadImg("data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'+sp.icon+'</svg>'))]);
+  const paint=(g,H)=>{
+    if(H){g.fillStyle="#121212";g.fillRect(0,0,W,H);if(ic)g.drawImage(ic,P,P,110,110)}
+    g.textAlign="left";
+    if(H){g.fillStyle="#e6e6e6";g.font="800 64px "+RF;g.fillText(sp.name,P+135,P+68);g.fillStyle="#8e8e93";g.font="26px "+SF;g.fillText("en TierBeat",P+137,P+106)}
+    let y=P+190;
+    g.font="700 36px "+RF;g.fillStyle="#e6e6e6";if(H)g.fillText(cutT(g,sp.list,W-2*P),P,y);y+=50;
+    if(sp.label){g.font="26px "+SF;g.fillStyle="#8e8e93";if(H)g.fillText(sp.label,P,y+10);y+=50}
+    if(sp.big){
+      g.font="800 120px "+RF;g.fillStyle="#e6e6e6";if(H)g.fillText(sp.big,P,y+100);y+=140;
+      g.font="34px "+SF;g.fillStyle="#8e8e93";if(H)g.fillText(sp.small,P,y+20);y+=70;
+    }
+    if(sp.champ){
+      const S=440,x=(W-S)/2;
+      if(H){rr(g,x,y,S,S,24);g.save();g.clip();if(art)g.drawImage(art,x,y,S,S);else{g.fillStyle="#26262a";g.fillRect(x,y,S,S)}g.restore()}
+      y+=S+60;g.textAlign="center";g.font="800 48px "+RF;g.fillStyle="#e6e6e6";if(H)g.fillText(cutT(g,sp.champ.title,W-2*P),W/2,y);
+      y+=48;g.font="30px "+SF;g.fillStyle="#8e8e93";if(H)g.fillText(cutT(g,sp.champ.artist,W-2*P),W/2,y);y+=40;g.textAlign="left";
+    }
+    if(sp.top){
+      y+=40;g.font="700 38px "+RF;g.fillStyle="#e6e6e6";if(H)g.fillText("Mi top",P,y);y+=20;
+      sp.top.forEach((t,i)=>{y+=56;g.font="32px "+SF;g.fillStyle="#cfcfd4";if(H)g.fillText(cutT(g,(i+1)+". "+t,W-2*P),P,y)});
+    }
+    y+=80;g.textAlign="center";g.font="24px "+SF;g.fillStyle="#8e8e93";if(H)g.fillText("elchetx.github.io",W/2,y);
+    return y+50;
+  };
+  const H=paint(el("canvas").getContext("2d"),0),c=el("canvas");c.width=W;c.height=H;paint(c.getContext("2d"),H);
+  box.textContent="";
+  const d=el("button","b","Descargar imagen");
+  d.onclick=()=>c.toBlob(b=>{const a=el("a");a.href=URL.createObjectURL(b);a.download=file;a.click()});
+  box.append(d);
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[new File([""],"a.png",{type:"image/png"})]})){
+      const sh=el("button","b alt","Compartir");
+      sh.onclick=()=>c.toBlob(async b=>{try{await navigator.share({files:[new File([b],file,{type:"image/png"})],title})}catch(e){}});
+      box.append(sh);
+    }
+  }catch(e){}
+  box.append(c);
+}
+$("#tmk").onclick=()=>{
+  const ch=T.ch,top=[ch,...T.out.slice().reverse()].slice(0,4).map(s=>s.title+(s.artist?" — "+s.artist:""));
+  shareImg($("#tout"),slug(T.t)+"-torneo.png","Torneo — "+T.t,{icon:TORNI,name:"Torneo",list:T.t,label:"Mi canción campeona",art:ch.art,champ:{title:ch.title,artist:ch.artist||""},top});
+};
+$("#gmk").onclick=()=>shareImg($("#gout"),slug(G.t)+"-de-oido.png",GAME+" — "+G.t,{icon:GAMEI,name:GAME,list:G.t,label:"Mi resultado",big:G.score+" de "+G.r,small:G.pts+" puntos de "+3*G.r+" posibles"});
+
+if(location.hash==="#acerca")showView(3);else if(location.hash==="#adivina")showView(4);else if(location.hash==="#torneo")showView(5);
 </script>
 </body>
 </html>
