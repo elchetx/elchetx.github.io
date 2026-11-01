@@ -143,11 +143,13 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 .tc img{width:100%;height:100%;object-fit:cover;display:block}
 .tc b{display:block;font-size:16px;overflow-wrap:anywhere}.tc small{display:block;color:var(--mute);margin:2px 0 10px;overflow-wrap:anywhere}
 .tc .b{display:block;width:100%;margin:6px 0 0}
-#trs .b{margin:6px 8px 0 0}
+#trs .b,#gmd .b{margin:6px 8px 0 0}
 .shot canvas{width:100%;max-width:540px;border-radius:10px;margin-top:12px;display:block}
 .dsegs{display:flex;gap:6px;margin:6px 0 10px}.dsegs i{flex:1;height:10px;border-radius:5px;background:var(--line)}
 .dsegs i.m{background:#e07a7a}.dsegs i.s{background:#5a5a60}.dsegs i.w{background:#7fd99a}.dsegs i.c{box-shadow:0 0 0 2px var(--hot)}
 #dout canvas{width:100%;max-width:540px;border-radius:10px;margin-top:12px;display:block}
+.lc.sel{outline:3px solid var(--hot);outline-offset:-3px}
+#gmb .hint{margin:10px 0 0}#gmb .b{margin:0}#gmp{margin-top:12px!important}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
      crossorigin="anonymous"></script>
@@ -238,13 +240,15 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 <section id="s4">
   <div id="gpick">
     <div class="box"><h2>De Oído</h2>
-      <p class="hint">Elige una tier list y escucha un fragmento: primero solo 1 segundo. Si no la reconoces, puedes pedir 3 y luego 5 segundos. Mientras menos escuches, más puntos ganas (3, 2 o 1).</p></div>
+      <p class="hint">Elige una tier list y escucha un fragmento: primero solo 1 segundo. Si no la reconoces, puedes pedir 3 y luego 5 segundos. Mientras menos escuches, más puntos ganas (3, 2 o 1). Puedes adivinar la canción o el artista.</p></div>
+    <div class="box" id="gmb"><button class="b alt" id="gmt">Combinar varias listas</button><p class="hint" id="gms2"></p><button class="b" id="gmp" hidden disabled>Jugar con las seleccionadas</button></div>
     <input type="search" id="gq" class="srch" placeholder="Buscar una tier list" aria-label="Buscar tier lists" autocomplete="off">
     <div id="gqr" hidden></div>
     <div id="gsec"></div>
   </div>
   <div class="box" id="gset" hidden>
     <h2 id="gtt"></h2><p class="hint" id="gtn"></p>
+    <p>¿Qué quieres adivinar?</p><div id="gmd"></div><p class="hint" id="gmn"></p>
     <p>¿Cuántas rondas quieres jugar?</p><div id="grs"></div>
     <button class="b alt" id="gbk">Elegir otra lista</button>
   </div>
@@ -1033,14 +1037,37 @@ function initAds(){
   if(/^https:\/\//.test(DONATE_URL)){$("#ft").hidden=false;$("#don").onclick=()=>window.open(DONATE_URL,"_blank","noopener")}
 }
 renderHome();loadCom();initAds();
-const gau=new Audio(),GS=[1,3,5];let G=null,gT=0,gComC=null,gComT=0;
+const gau=new Audio(),GS=[1,3,5];let G=null,gT=0,gComC=null,gComT=0,gMode="song",gMulti=false;
+const gSel=new Map();
 const gHide=()=>["#gpick","#gset","#gpl","#gen"].forEach(i=>$(i).hidden=true);
-const gCard=(t,au,s,when)=>()=>homeCard({t,a:au,d:(au?"por "+au:"Anónimo")+(when?" · "+when:""),s,arts:s.map(x=>x.art).filter(safe).slice(0,4)},"com",()=>gStart(t,s));
+const gKey=(t,s)=>t+"|"+s.length;
+function gChoose(t,songs,card){
+  if(!gMulti){gStart(t,songs);return}
+  const k=gKey(t,songs);
+  if(gSel.has(k)){gSel.delete(k);card.classList.remove("sel")}else{gSel.set(k,{t,songs});card.classList.add("sel")}
+  gBar();
+}
+const gWrap=(t,songs,make)=>()=>{const c=make(()=>gChoose(t,songs,c));if(gSel.has(gKey(t,songs)))c.classList.add("sel");return c};
+const gMerge=()=>{
+  const seen=new Map();
+  [...gSel.values()].forEach(x=>x.songs.forEach(s=>{const k=nz(s.title)+"|"+nz(s.artist);if(!seen.has(k))seen.set(k,{...s})}));
+  return seen;
+};
+function gBar(){
+  const n=gSel.size,m=gMerge(),ar=new Set([...m.values()].map(s=>nz(s.artist)).filter(Boolean)).size;
+  $("#gmt").textContent=gMulti?"Dejar de combinar":"Combinar varias listas";
+  $("#gms2").textContent=gMulti?(n?n+(n===1?" lista":" listas")+" · "+m.size+" canciones · "+ar+(ar===1?" artista":" artistas"):"Toca las listas que quieras mezclar."):"";
+  $("#gmp").hidden=!gMulti;$("#gmp").disabled=m.size<4;
+}
+$("#gmt").onclick=()=>{gMulti=!gMulti;gSel.clear();document.querySelectorAll("#gpick .lc.sel").forEach(x=>x.classList.remove("sel"));gBar()};
+$("#gmp").onclick=()=>{const m=gMerge(),n=gSel.size;if(m.size<4)return;gStart(n===1?[...gSel.values()][0].t:"Mezcla de "+n+" listas",[...m.values()])};
+const gCard=(t,au,s,when)=>gWrap(t,s,pick=>homeCard({t,a:au,d:(au?"por "+au:"Anónimo")+(when?" · "+when:""),s,arts:s.map(x=>x.art).filter(safe).slice(0,4)},"com",pick));
 async function gMenu(){
+  gMulti=false;gSel.clear();gBar();
   gHide();$("#gpick").hidden=false;$("#gq").value="";$("#gqr").hidden=true;$("#gsec").hidden=false;
   const box=$("#gsec");box.textContent="";const cm=el("div"),mn=el("div"),bi=el("div");box.append(cm,mn,bi);
   grid(mn,"Mis tier lists",mineGet().filter(m=>m.songs.length>=4).map(m=>gCard(m.title,m.author||"",m.songs.map(x=>({...x})),"")));
-  const mk=k=>LISTS.map((L,i)=>({...L,i})).filter(L=>L.k===k).map(L=>()=>homeCard(L,false,()=>gStart(L.t,L.s.map(x=>({title:x[0],artist:x[1]})))));
+  const mk=k=>LISTS.map((L,i)=>({...L,i})).filter(L=>L.k===k).map(L=>{const sg=L.s.map(x=>({title:x[0],artist:x[1]}));return gWrap(L.t,sg,pick=>homeCard(L,false,pick))});
   grid(bi,"Por artista",mk("a"));grid(bi,"Por género",mk("g"));
   try{
     if(!gComC||Date.now()-gComT>6e4){gComC=await comList(12);gComT=Date.now()}
@@ -1048,7 +1075,15 @@ async function gMenu(){
   }catch(e){}
 }
 function gStart(t,songs){
-  const n=songs.length,w=$("#grs");G={t,src:songs};
+  const n=songs.length,w=$("#grs"),md=$("#gmd"),na=new Set(songs.map(x=>nz(x.artist)).filter(Boolean)).size,can=na>3;
+  G={t,src:songs,mode:can?gMode:"song"};
+  md.textContent="";
+  [["song","La canción"],["artist","El artista"]].forEach(([k,x])=>{
+    const b=el("button","b"+(G.mode===k?"":" alt"),x);if(k==="artist"&&!can)b.disabled=true;
+    b.onclick=()=>{gMode=k;G.mode=k;[...md.children].forEach((y,i)=>y.className="b"+((i===0)===(k==="song")?"":" alt"))};
+    md.append(b);
+  });
+  $("#gmn").textContent=can?"":"Para adivinar el artista la lista necesita más de 3 artistas distintos (esta tiene "+na+"). Prueba con «Combinar varias listas».";
   gHide();$("#gset").hidden=false;window.scrollTo(0,0);
   $("#gtt").textContent=t;$("#gtn").textContent=n+" canciones en esta lista.";w.textContent="";
   [...[5,10,15,20,30,40].filter(x=>x<n),n].forEach(k=>{const b=el("button","b",k===n?"Todas ("+n+")":""+k);b.onclick=()=>gGo(k);w.append(b)});
@@ -1063,13 +1098,18 @@ async function gRound(){
   let s=null;
   while(!s&&G.i<G.order.length){
     const c=G.order[G.i++];
+    if(G.mode==="artist"&&!c.artist)continue;
     if(await freshUrl(c))s=c;
   }
   if(!s){gEnd();return}
   G.cur=s;
   const lbl=o=>o.title+(o.artist?" — "+o.artist:"");
-  const opts=[s,...G.src.filter(x=>x.title!==s.title).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
-  opts.forEach(o=>{const b=el("button","opt",lbl(o));b.dataset.ok=o.title===s.title?"1":"";b.onclick=()=>gPick(b);$("#gop").append(b)});
+  let opts;
+  if(G.mode==="artist"){
+    const a=nz(s.artist),others=[...new Map(G.src.filter(x=>x.artist).map(x=>[nz(x.artist),x.artist])).values()].filter(x=>nz(x)!==a).sort(()=>Math.random()-.5).slice(0,3);
+    opts=[{t:s.artist,ok:1},...others.map(t=>({t,ok:0}))];
+  }else opts=[s,...G.src.filter(x=>x.title!==s.title).sort(()=>Math.random()-.5).slice(0,3)].map(o=>({t:lbl(o),ok:o.title===s.title?1:0}));
+  opts.sort(()=>Math.random()-.5).forEach(o=>{const b=el("button","opt",o.t);b.dataset.ok=o.ok?"1":"";b.onclick=()=>gPick(b);$("#gop").append(b)});
   $("#gpb").disabled=false;gMoreBtn();$("#gms").textContent="";gListen();
 }
 function gMoreBtn(){const b=$("#gmr");b.hidden=G.stage>=GS.length-1;b.textContent="Necesito más tiempo ("+GS[Math.min(G.stage+1,GS.length-1)]+" s)"}
@@ -1090,7 +1130,7 @@ function gPick(b){
   all.forEach(x=>x.disabled=true);
   const p=ok?3-G.stage:0;
   if(ok){G.score++;G.pts+=p;b.classList.add("ok")}else{b.classList.add("no");const c=all.find(x=>x.dataset.ok);if(c)c.classList.add("ok")}
-  $("#gms").textContent=ok?"¡Correcto! +"+p+(p===1?" punto":" puntos"):"Era «"+s.title+"».";
+  $("#gms").textContent=(ok?"¡Correcto! +"+p+(p===1?" punto":" puntos"):"Era «"+(G.mode==="artist"?s.artist:s.title)+"».")+(G.mode==="artist"?" La canción es «"+s.title+"».":"");
   $("#gmr").hidden=true;$("#gsc").textContent="Ronda "+(G.r+1)+" de "+G.n+" · Puntos: "+G.pts;
   G.r++;$("#gnx").hidden=false;$("#gnx").textContent=G.r>=G.n?"Ver resultado":"Siguiente";
 }
@@ -1116,11 +1156,12 @@ function qFind(items,q){
   return items.filter(it=>{const h=nz([it.t,it.au,...it.songs.map(s=>s.artist)].join(" "));return k.every(w=>h.includes(w))})
     .sort((a,b)=>nz(b.t).includes(full)-nz(a.t).includes(full));
 }
-const qCards=(items,pick)=>items.map(it=>()=>{
-  const act=pick?()=>pick(it):null;
-  if(it.kind==="b")return homeCard(it.L,false,act);
-  return homeCard({t:it.t,a:it.au,d:(it.au?"por "+it.au:it.kind==="m"?"Hecha por ti":"Anónimo")+(it.createdAt?" · "+ago(it.createdAt):""),s:it.songs,
+const qCards=(items,pick,isSel)=>items.map(it=>()=>{
+  let c;const act=pick?()=>pick(it,c):null;
+  c=it.kind==="b"?homeCard(it.L,false,act):homeCard({t:it.t,a:it.au,d:(it.au?"por "+it.au:it.kind==="m"?"Hecha por ti":"Anónimo")+(it.createdAt?" · "+ago(it.createdAt):""),s:it.songs,
     arts:it.songs.map(x=>x.art).filter(safe).slice(0,4)},it.kind==="m"&&!pick?"mine":"com",act);
+  if(isSel&&isSel(it))c.classList.add("sel");
+  return c;
 });
 async function runQ(){
   const q=$("#hq").value.trim(),r=$("#qr"),parts=["#com","#mn","#gal"].map($),my=++qTok;
@@ -1140,7 +1181,7 @@ $("#gq").oninput=()=>{clearTimeout(gqTm);gqTm=setTimeout(async()=>{
   const items=qFind(await qItems(),q).filter(x=>x.songs.length>=4);if(my!==gqTok)return;
   r.textContent="";
   if(!items.length){r.append(el("p","nt","No encontré listas con «"+q+"». Se necesitan al menos 4 canciones."));return}
-  grid(r,"Resultados ("+items.length+")",qCards(items,it=>gStart(it.t,it.songs.map(s=>({...s})))));
+  grid(r,"Resultados ("+items.length+")",qCards(items,(it,c)=>gChoose(it.t,it.songs.map(s=>({...s})),c),it=>gSel.has(gKey(it.t,it.songs))));
 },250)};
 
 const GAME="De Oído",TBN=$("h1 span").textContent,TBI=$(".lg").innerHTML,TBT=$("#tag").textContent,TBTL=document.title;
@@ -1304,7 +1345,7 @@ $("#tmk").onclick=()=>{
   const ch=T.ch,top=[ch,...T.out.slice().reverse()].slice(0,4).map(s=>s.title+(s.artist?" — "+s.artist:""));
   shareImg($("#tout"),slug(T.t)+"-torneo.png","Torneo — "+T.t,{icon:TORNI,name:"Torneo",list:T.t,label:"Mi canción campeona",art:ch.art,champ:{title:ch.title,artist:ch.artist||""},top});
 };
-$("#gmk").onclick=()=>shareImg($("#gout"),slug(G.t)+"-de-oido.png",GAME+" — "+G.t,{icon:GAMEI,name:GAME,list:G.t,label:"Mi resultado",big:G.score+" de "+G.r,small:G.pts+" puntos de "+3*G.r+" posibles"});
+$("#gmk").onclick=()=>shareImg($("#gout"),slug(G.t)+"-de-oido.png",GAME+" — "+G.t,{icon:GAMEI,name:GAME,list:G.t+(G.mode==="artist"?" · Adivina el artista":""),label:"Mi resultado",big:G.score+" de "+G.r,small:G.pts+" puntos de "+3*G.r+" posibles"});
 
 const DKEY="tierbeat_daily_v1",DSEC=[1,2,4,7,11,16],dau=new Audio();
 let D=null,dTm=0,dClock=0;
