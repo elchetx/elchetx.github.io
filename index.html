@@ -145,6 +145,9 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 .tc .b{display:block;width:100%;margin:6px 0 0}
 #trs .b{margin:6px 8px 0 0}
 .shot canvas{width:100%;max-width:540px;border-radius:10px;margin-top:12px;display:block}
+.dsegs{display:flex;gap:6px;margin:6px 0 10px}.dsegs i{flex:1;height:10px;border-radius:5px;background:var(--line)}
+.dsegs i.m{background:#e07a7a}.dsegs i.s{background:#5a5a60}.dsegs i.w{background:#7fd99a}.dsegs i.c{box-shadow:0 0 0 2px var(--hot)}
+#dout canvas{width:100%;max-width:540px;border-radius:10px;margin-top:12px;display:block}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
      crossorigin="anonymous"></script>
@@ -153,7 +156,7 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 <header>
   <h1><svg class="lg" viewBox="0 0 64 64" width="76" height="76" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#171d26"/><rect x="9" y="9" width="11" height="10" rx="3" fill="#ff7f7f"/><rect x="22" y="9" width="33" height="10" rx="3" fill="#2a3340"/><circle cx="30" cy="14" r="3.2" fill="#34c3b0"/><circle cx="42" cy="14" r="3.2" fill="#34c3b0"/><rect x="9" y="21" width="11" height="10" rx="3" fill="#ffbf7f"/><rect x="22" y="21" width="33" height="10" rx="3" fill="#2a3340"/><circle cx="30" cy="26" r="3.2" fill="#34c3b0"/><rect x="9" y="33" width="11" height="10" rx="3" fill="#ffdf7f"/><rect x="22" y="33" width="33" height="10" rx="3" fill="#2a3340"/><rect x="9" y="45" width="11" height="10" rx="3" fill="#9fe8c4"/><rect x="22" y="45" width="33" height="10" rx="3" fill="#2a3340"/></svg><span>TierBeat</span></h1>
   <p id="tag">Arma una tier list con fragmentos de tus canciones favoritas y deja que otros las califiquen.</p>
-  <div class="menu" role="navigation" aria-label="Principal"><button id="nv0" class="on">Inicio</button><button id="nv4">De Oído</button><button id="nv5">Torneo</button><a href="guias.html">Guías</a><a href="acerca.html">Acerca de</a></div>
+  <div class="menu" role="navigation" aria-label="Principal"><button id="nv0" class="on">Inicio</button><button id="nv4">De Oído</button><button id="nv5">Torneo</button><button id="nv6">Reto diario</button><a href="guias.html">Guías</a><a href="acerca.html">Acerca de</a></div>
 </header>
 <div id="top"><button id="back" hidden>← Inicio</button></div>
 <main>
@@ -289,6 +292,29 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
     <div class="shot" id="tout"></div>
   </div>
 </section>
+<section id="s6">
+  <div class="box"><h2>Reto diario</h2>
+    <p class="hint">Una canción nueva cada día, igual para todos (cambia a medianoche, hora de México). Tienes 6 intentos y en cada uno escuchas un fragmento más largo: 1, 2, 4, 7, 11 y 16 segundos.</p>
+    <p class="hint" id="dst"></p></div>
+  <div class="box" id="dgm">
+    <div class="dsegs" id="dsg"></div>
+    <div class="gbar"><i id="db"></i></div>
+    <button class="b" id="dpl">Escuchar</button>
+    <button class="b alt" id="dsk">Saltar</button>
+    <input type="text" id="dqi" class="srch" placeholder="Escribe el título o el artista" autocomplete="off" aria-label="Tu respuesta">
+    <div id="dsu"></div>
+    <button class="b" id="dgo" disabled>Adivinar</button>
+    <div id="dhs"></div>
+    <div class="msg" id="dms" role="status"></div>
+  </div>
+  <div class="box" id="dend" hidden>
+    <h2 id="dtt"></h2>
+    <div class="duel one" id="dcv"></div>
+    <p class="hint" id="dcn"></p>
+    <button class="b" id="dmk">Crear imagen para compartir</button>
+    <div class="shot" id="dout"></div>
+  </div>
+</section>
 </main>
 
 <div id="m2" class="toast" role="status"></div>
@@ -318,16 +344,17 @@ const ink=c=>{const n=parseInt(c.slice(1),16);return(((n>>16)*299+((n>>8)&255)*5
 
 const LISTS=[{"t": "Rock en español clásico", "d": "Los himnos que todos se saben", "s": [["Eres", "Café Tacvba"], ["De música ligera", "Soda Stereo"], ["En el Muelle de San Blas", "Maná"], ["La Célula que Explota", "Caifanes"], ["Lamento boliviano", "Enanitos Verdes"], ["Matador", "Los Fabulosos Cadillacs"], ["Persiana Americana", "Soda Stereo"], ["Rayando el Sol", "Maná"], ["Mariposa Traicionera", "Maná"], ["Afuera", "Caifanes"], ["La Ingrata", "Café Tacvba"], ["Cuando Pase el Temblor", "Soda Stereo"], ["Ciudad de la Furia", "Soda Stereo"], ["Clavado en un Bar", "Maná"], ["Oye Mi Amor", "Maná"], ["Vivir Sin Aire", "Maná"], ["Mátenme Porque Me Muero", "Caifanes"], ["La Muralla Verde", "Enanitos Verdes"], ["Los Dinosaurios", "Charly García"], ["La Flaca", "Jarabe de Palo"]], "k": "g", "im": ["Soda Stereo", "Maná", "Café Tacvba", "Caifanes"], "c": ["#ff6a3d", "#7b1fa2"]}, {"t": "Reguetón y latin urbano", "d": "De Gasolina a Bad Bunny", "s": [["Gasolina", "Daddy Yankee"], ["Despacito", "Luis Fonsi"], ["DÁKITI", "Bad Bunny"], ["Tití Me Preguntó", "Bad Bunny"], ["Mi Gente", "J Balvin"], ["Pepas", "Farruko"], ["Danza Kuduro", "Don Omar"], ["Con Calma", "Daddy Yankee"], ["TUSA", "Karol G"], ["Safaera", "Bad Bunny"], ["MIA", "Bad Bunny"], ["Callaíta", "Bad Bunny"], ["Me Porto Bonito", "Bad Bunny"], ["Hawái", "Maluma"], ["Felices los 4", "Maluma"], ["Ay Vamos", "J Balvin"], ["Lo Que Pasó, Pasó", "Daddy Yankee"], ["Bichota", "Karol G"], ["Provenza", "Karol G"], ["Ojitos Lindos", "Bad Bunny"]], "k": "g", "im": ["Daddy Yankee", "Bad Bunny", "J Balvin", "Karol G"], "c": ["#ff2e93", "#ff8a00"]}, {"t": "Regional mexicano", "d": "Corridos, norteño y tumbados", "s": [["Ella Baila Sola", "Eslabon Armado"], ["La Puerta Negra", "Los Tigres del Norte"], ["un x100to", "Grupo Frontera"], ["Adiós Amor", "Christian Nodal"], ["Un Rinconcito en el Cielo", "Ramón Ayala"], ["Sueña", "Intocable"], ["Contrabando y Traición", "Los Tigres del Norte"], ["La Chona", "Los Tucanes de Tijuana"], ["No Se Va", "Grupo Frontera"], ["Soy el Diablo", "Natanael Cano"], ["La Bebé", "Yng Lvcas"], ["El Azul", "Junior H"], ["El Belicón", "Peso Pluma"], ["Bebe Dame", "Fuerza Regida"], ["Primera Cita", "Carin León"], ["Jefe de Jefes", "Los Tigres del Norte"], ["Volver, Volver", "Vicente Fernández"], ["El Rey", "Vicente Fernández"], ["Mujeres Divinas", "Vicente Fernández"], ["Amorcito Corazón", "Pedro Infante"]], "k": "g", "im": ["Peso Pluma", "Los Tigres del Norte", "Grupo Frontera", "Christian Nodal"], "c": ["#2e9e5b", "#d4a017"]}, {"t": "Fiesta latina", "d": "Cumbia, salsa y pop para bailar", "s": [["Como la Flor", "Selena"], ["Bidi Bidi Bom Bom", "Selena"], ["17 Años", "Los Ángeles Azules"], ["Suavemente", "Elvis Crespo"], ["Vivir Mi Vida", "Marc Anthony"], ["La Camisa Negra", "Juanes"], ["Bailando", "Enrique Iglesias"], ["La Tortura", "Shakira"], ["Hips Don't Lie", "Shakira"], ["La Bamba", "Ritchie Valens"], ["Waka Waka", "Shakira"], ["Livin' la Vida Loca", "Ricky Martin"], ["La Copa de la Vida", "Ricky Martin"], ["Macarena", "Los del Río"], ["La Vida Es un Carnaval", "Celia Cruz"], ["Pedro Navaja", "Rubén Blades"], ["Bamboleo", "Gipsy Kings"], ["El Cantante", "Héctor Lavoe"], ["Conga", "Gloria Estefan"], ["La Bomba", "Azul Azul"]], "k": "g", "im": ["Selena", "Marc Anthony", "Shakira", "Ricky Martin"], "c": ["#ff4d6d", "#ffb703"]}, {"t": "Baladas para llorar", "d": "Desamor en español", "s": [["Mientes", "Camila"], ["Todo Cambió", "Camila"], ["Hasta Que Te Conocí", "Juan Gabriel"], ["Amor Eterno", "Juan Gabriel"], ["Si No Te Hubieras Ido", "Marco Antonio Solís"], ["Corazón Partío", "Alejandro Sanz"], ["El Triste", "José José"], ["Tu Cárcel", "Los Bukis"], ["Ahora Quién", "Marc Anthony"], ["Eres Mi Religión", "Maná"], ["La Incondicional", "Luis Miguel"], ["Contigo en la Distancia", "Luis Miguel"], ["Cuando Calienta el Sol", "Luis Miguel"], ["Y Tú Te Vas", "Chayanne"], ["Torero", "Chayanne"], ["Obsesión", "Aventura"], ["Querida", "Juan Gabriel"], ["Cuando Me Enamoro", "Enrique Iglesias"], ["Azul", "Cristian Castro"], ["Por Amarte Así", "Cristian Castro"]], "k": "g", "im": ["Luis Miguel", "Juan Gabriel", "Camila", "José José"], "c": ["#4a6cf7", "#a855f7"]}, {"t": "Pop de los 2000", "d": "Los éxitos de la radio de antes", "s": [["Toxic", "Britney Spears"], ["Umbrella", "Rihanna"], ["Crazy in Love", "Beyoncé"], ["Hey Ya!", "OutKast"], ["Mr. Brightside", "The Killers"], ["Since U Been Gone", "Kelly Clarkson"], ["Poker Face", "Lady Gaga"], ["Rolling in the Deep", "Adele"], ["Viva la Vida", "Coldplay"], ["I Gotta Feeling", "The Black Eyed Peas"], ["Bad Romance", "Lady Gaga"], ["Complicated", "Avril Lavigne"], ["Yeah!", "Usher"], ["Lose Yourself", "Eminem"], ["In Da Club", "50 Cent"], ["Bleeding Love", "Leona Lewis"], ["Fix You", "Coldplay"], ["Boulevard of Broken Dreams", "Green Day"], ["Misery Business", "Paramore"], ["Seven Nation Army", "The White Stripes"]], "k": "g", "im": ["Britney Spears", "Rihanna", "Beyoncé", "Coldplay"], "c": ["#ff79c6", "#6c5ce7"]}, {"t": "Pop de los 2020", "d": "Lo que suena hoy", "s": [["Blinding Lights", "The Weeknd"], ["As It Was", "Harry Styles"], ["Flowers", "Miley Cyrus"], ["Anti-Hero", "Taylor Swift"], ["good 4 u", "Olivia Rodrigo"], ["Levitating", "Dua Lipa"], ["bad guy", "Billie Eilish"], ["Espresso", "Sabrina Carpenter"], ["Die With A Smile", "Lady Gaga"], ["Cruel Summer", "Taylor Swift"], ["drivers license", "Olivia Rodrigo"], ["Watermelon Sugar", "Harry Styles"], ["Don't Start Now", "Dua Lipa"], ["Save Your Tears", "The Weeknd"], ["Stay", "The Kid LAROI"], ["Heat Waves", "Glass Animals"], ["Easy on Me", "Adele"], ["vampire", "Olivia Rodrigo"], ["Kill Bill", "SZA"], ["Industry Baby", "Lil Nas X"]], "k": "g", "im": ["The Weeknd", "Dua Lipa", "Olivia Rodrigo", "Harry Styles"], "c": ["#00c2d1", "#7c3aed"]}, {"t": "Rock clásico", "d": "Guitarras que no pasan de moda", "s": [["Bohemian Rhapsody", "Queen"], ["Hotel California", "Eagles"], ["Stairway to Heaven", "Led Zeppelin"], ["Smoke on the Water", "Deep Purple"], ["Back In Black", "AC/DC"], ["Sweet Child O' Mine", "Guns N' Roses"], ["Don't Stop Believin'", "Journey"], ["Livin' on a Prayer", "Bon Jovi"], ["Come Together", "The Beatles"], ["Another Brick in the Wall, Pt. 2", "Pink Floyd"], ["Highway to Hell", "AC/DC"], ["We Will Rock You", "Queen"], ["Don't Stop Me Now", "Queen"], ["Paint It Black", "The Rolling Stones"], ["Hey Jude", "The Beatles"], ["Dream On", "Aerosmith"], ["Whole Lotta Love", "Led Zeppelin"], ["Free Bird", "Lynyrd Skynyrd"], ["Wish You Were Here", "Pink Floyd"], ["Purple Haze", "Jimi Hendrix"]], "k": "g", "im": ["Queen", "Led Zeppelin", "AC/DC", "Pink Floyd"], "c": ["#e63946", "#1d1d3a"]}, {"t": "Clásicos de los 80 y 90", "d": "Para toda la familia", "s": [["Take On Me", "a-ha"], ["Billie Jean", "Michael Jackson"], ["Girls Just Want to Have Fun", "Cyndi Lauper"], ["Africa", "Toto"], ["Every Breath You Take", "The Police"], ["Sweet Dreams (Are Made of This)", "Eurythmics"], ["Wake Me Up Before You Go-Go", "Wham!"], ["Smells Like Teen Spirit", "Nirvana"], ["Wonderwall", "Oasis"], ["Losing My Religion", "R.E.M."], ["Like a Prayer", "Madonna"], ["Thriller", "Michael Jackson"], ["Beat It", "Michael Jackson"], ["Purple Rain", "Prince"], ["Under Pressure", "Queen"], ["Baby One More Time", "Britney Spears"], ["Wannabe", "Spice Girls"], ["Creep", "Radiohead"], ["Zombie", "The Cranberries"], ["Basket Case", "Green Day"]], "k": "g", "im": ["Michael Jackson", "Madonna", "Nirvana", "a-ha"], "c": ["#f72585", "#3a0ca3"]}, {"t": "Bad Bunny: sus mejores canciones", "d": "El conejo malo, de punta a punta", "s": [["Tití Me Preguntó", "Bad Bunny"], ["DÁKITI", "Bad Bunny"], ["Me Porto Bonito", "Bad Bunny"], ["Ojitos Lindos", "Bad Bunny"], ["Callaíta", "Bad Bunny"], ["Yo Perreo Sola", "Bad Bunny"], ["Efecto", "Bad Bunny"], ["Moscow Mule", "Bad Bunny"], ["Neverita", "Bad Bunny"], ["Después de la Playa", "Bad Bunny"], ["Monaco", "Bad Bunny"], ["BAILE INoLVIDABLE", "Bad Bunny"], ["NUEVAYoL", "Bad Bunny"], ["DtMF", "Bad Bunny"], ["Yonaguni", "Bad Bunny"], ["Amorfoda", "Bad Bunny"], ["Soy Peor", "Bad Bunny"], ["Vete", "Bad Bunny"], ["Safaera", "Bad Bunny"], ["MIA", "Bad Bunny"]], "k": "a", "im": ["Bad Bunny"], "c": ["#0ea5a4", "#ff4d8d"]}, {"t": "Calle 13: sus mejores canciones", "d": "Rap, protesta y fiesta", "s": [["Atrévete-te-te", "Calle 13"], ["Latinoamérica", "Calle 13"], ["Pa'l Norte", "Calle 13"], ["Un Beso de Desayuno", "Calle 13"], ["Tango del Pecado", "Calle 13"], ["Muerte en Hawaii", "Calle 13"], ["La Perla", "Calle 13"], ["Cumbia de los Aburridos", "Calle 13"], ["Ojos Color Sol", "Calle 13"], ["Fiesta de Locos", "Calle 13"], ["No Hay Nadie Como Tú", "Calle 13"], ["Calma Pueblo", "Calle 13"], ["El Baile de los Pobres", "Calle 13"], ["Digo Lo Que Pienso", "Calle 13"], ["Vamo' a Portarnos Mal", "Calle 13"], ["Electro Movimiento", "Calle 13"]], "k": "a", "im": ["Calle 13"], "c": ["#f59e0b", "#b91c1c"]}, {"t": "Shakira: sus mejores canciones", "d": "Dos décadas de éxitos", "s": [["Hips Don't Lie", "Shakira"], ["La Tortura", "Shakira"], ["Waka Waka", "Shakira"], ["Ojos Así", "Shakira"], ["Whenever, Wherever", "Shakira"], ["Estoy Aquí", "Shakira"], ["Antología", "Shakira"], ["Inevitable", "Shakira"], ["Objection (Tango)", "Shakira"], ["Loca", "Shakira"], ["She Wolf", "Shakira"], ["Can't Remember to Forget You", "Shakira"], ["Chantaje", "Shakira"], ["Me Enamoré", "Shakira"], ["Perro Fiel", "Shakira"], ["La Bicicleta", "Shakira"], ["Te Felicito", "Shakira"], ["Ciega, Sordomuda", "Shakira"], ["Suerte", "Shakira"], ["Monotonía", "Shakira"]], "k": "a", "im": ["Shakira"], "c": ["#f5b301", "#c2410c"]}, {"t": "Mon Laferte: sus mejores canciones", "d": "Cumbia, bolero y desamor", "s": [["Tu Falta de Querer", "Mon Laferte"], ["Mi Buen Amor", "Mon Laferte"], ["Amárrame", "Mon Laferte"], ["Amor Completo", "Mon Laferte"], ["Si Tú Me Quisieras", "Mon Laferte"], ["Pa' Dónde Se Fue", "Mon Laferte"], ["Tormento", "Mon Laferte"], ["El Beso", "Mon Laferte"], ["Antes de Ti", "Mon Laferte"], ["No Te Fumes Mi Mariguana", "Mon Laferte"], ["La Trenza", "Mon Laferte"], ["Primaveral", "Mon Laferte"], ["Cielito de Abril", "Mon Laferte"], ["Flaco", "Mon Laferte"], ["Que Sí", "Mon Laferte"], ["Yo Te Qui", "Mon Laferte"]], "k": "a", "im": ["Mon Laferte"], "c": ["#be123c", "#4c1d95"]}, {"t": "Sabrina Carpenter: sus mejores canciones", "d": "Pop con actitud", "s": [["Espresso", "Sabrina Carpenter"], ["Please Please Please", "Sabrina Carpenter"], ["Taste", "Sabrina Carpenter"], ["Bed Chem", "Sabrina Carpenter"], ["Juno", "Sabrina Carpenter"], ["Feather", "Sabrina Carpenter"], ["Nonsense", "Sabrina Carpenter"], ["Because I Liked a Boy", "Sabrina Carpenter"], ["Sue Me", "Sabrina Carpenter"], ["Thumbs", "Sabrina Carpenter"], ["Skin", "Sabrina Carpenter"], ["Manchild", "Sabrina Carpenter"], ["Tears", "Sabrina Carpenter"], ["Good Graces", "Sabrina Carpenter"], ["Busy Woman", "Sabrina Carpenter"], ["Read Your Mind", "Sabrina Carpenter"], ["Can't Blame a Girl for Trying", "Sabrina Carpenter"], ["Why", "Sabrina Carpenter"]], "k": "a", "im": ["Sabrina Carpenter"], "c": ["#fb7185", "#fbbf24"]}, {"t": "Kevin Kaarl: sus mejores canciones", "d": "Folk nostálgico desde Chihuahua", "s": [["San Lucas", "Kevin Kaarl"], ["Te Quiero Tanto", "Kevin Kaarl"], ["Colapso", "Kevin Kaarl"], ["Vámonos a Marte", "Kevin Kaarl"], ["Me Va a Costar", "Kevin Kaarl"], ["Como Me Encanta", "Kevin Kaarl"], ["Abrazado a Ti", "Kevin Kaarl"], ["Si Supieras", "Kevin Kaarl"], ["Amor Viejo", "Kevin Kaarl"], ["Búscame Otra Vez", "Kevin Kaarl"], ["Y Está Bien", "Kevin Kaarl"], ["Esta Noche", "Kevin Kaarl"], ["Dime", "Kevin Kaarl"], ["Siente Más", "Kevin Kaarl"], ["Llora Más", "Kevin Kaarl"], ["Nunca Te Supe Cuidar", "Kevin Kaarl"], ["Quédate", "Kevin Kaarl"]], "k": "a", "im": ["Kevin Kaarl"], "c": ["#65a30d", "#0f766e"]}, {"t": "Ed Maverick: sus mejores canciones", "d": "Folk para llorar en tu cuarto", "s": [["Fuentes de Ortiz", "Ed Maverick"], ["Acurrucar", "Ed Maverick"], ["Ropa de Bazar", "Ed Maverick"], ["Karpe Diem", "Ed Maverick"], ["Del Río", "Ed Maverick"], ["Quiero", "Ed Maverick"], ["Siempre Estoy Pa' Ti", "Ed Maverick"], ["WRU", "Ed Maverick"], ["Gracias", "Ed Maverick"], ["Mantra II", "Ed Maverick"], ["Culpa", "Ed Maverick"], ["Arcoíris", "Ed Maverick"], ["Nadie Va a Pensar en Ti Mejor Que Yo", "Ed Maverick"], ["No Hay Problema", "Ed Maverick"], ["Violento", "Ed Maverick"], ["Valor de Más", "Ed Maverick"]], "k": "a", "im": ["Ed Maverick"], "c": ["#ca8a04", "#7c2d12"]}, {"t": "Taylor Swift: sus mejores canciones", "d": "De Love Story a Fortnight", "s": [["Anti-Hero", "Taylor Swift"], ["Cruel Summer", "Taylor Swift"], ["Shake It Off", "Taylor Swift"], ["Blank Space", "Taylor Swift"], ["Love Story", "Taylor Swift"], ["You Belong with Me", "Taylor Swift"], ["Bad Blood", "Taylor Swift"], ["Style", "Taylor Swift"], ["Lover", "Taylor Swift"], ["Willow", "Taylor Swift"], ["Cardigan", "Taylor Swift"], ["All Too Well", "Taylor Swift"], ["Delicate", "Taylor Swift"], ["Ready for It?", "Taylor Swift"], ["Look What You Made Me Do", "Taylor Swift"], ["Fortnight", "Taylor Swift"], ["Karma", "Taylor Swift"], ["Bejeweled", "Taylor Swift"], ["Lavender Haze", "Taylor Swift"], ["Wildest Dreams", "Taylor Swift"]], "k": "a", "im": ["Taylor Swift"], "c": ["#a78bfa", "#f472b6"]}, {"t": "Soda Stereo: sus mejores canciones", "d": "Los clásicos del rock argentino", "s": [["De Música Ligera", "Soda Stereo"], ["Persiana Americana", "Soda Stereo"], ["Cuando Pase el Temblor", "Soda Stereo"], ["Ciudad de la Furia", "Soda Stereo"], ["Trátame Suavemente", "Soda Stereo"], ["Nada Personal", "Soda Stereo"], ["Signos", "Soda Stereo"], ["Un Millón de Años Luz", "Soda Stereo"], ["Prófugos", "Soda Stereo"], ["En el Séptimo Día", "Soda Stereo"], ["Té para Tres", "Soda Stereo"], ["Lo Que Sangra (La Cúpula)", "Soda Stereo"], ["Primavera 0", "Soda Stereo"], ["Corazón Delator", "Soda Stereo"], ["Sobredosis de TV", "Soda Stereo"], ["Fue", "Soda Stereo"], ["Ella Usó Mi Cabeza Como un Revólver", "Soda Stereo"]], "k": "a", "im": ["Soda Stereo"], "c": ["#06b6d4", "#1e3a8a"]}, {"t": "Selena: sus mejores canciones", "d": "La reina del Tex-Mex", "s": [["Como la Flor", "Selena"], ["Bidi Bidi Bom Bom", "Selena"], ["Amor Prohibido", "Selena"], ["I Could Fall in Love", "Selena"], ["Dreaming of You", "Selena"], ["No Me Queda Más", "Selena"], ["Techno Cumbia", "Selena"], ["La Carcacha", "Selena"], ["Baila Esta Cumbia", "Selena"], ["Fotos y Recuerdos", "Selena"], ["Si Una Vez", "Selena"], ["Tú Solo Tú", "Selena"], ["El Chico del Apartamento 512", "Selena"], ["Ya Ves", "Selena"]], "k": "a", "im": ["Selena"], "c": ["#ec4899", "#f59e0b"]}];
 function showView(v){
-  [0,1,2,4,5].forEach(i=>$("#s"+i).classList.toggle("on",i===v));
-  $("#nv0").classList.toggle("on",v<3);$("#nv4").classList.toggle("on",v===4);$("#nv5").classList.toggle("on",v===5);
+  [0,1,2,4,5,6].forEach(i=>$("#s"+i).classList.toggle("on",i===v));
+  $("#nv0").classList.toggle("on",v<3);$("#nv4").classList.toggle("on",v===4);$("#nv5").classList.toggle("on",v===5);$("#nv6").classList.toggle("on",v===6);
   if(v!==4){gau.pause();clearTimeout(gT)}
   brand(v);if(v!==5)tStop();if(v===5)tMenu();
+  if(v===6)dInit();else{dau.pause();clearTimeout(dTm);clearInterval(dClock)}
   if(v===4)gMenu();
-  try{history.replaceState(null,"",v===4?"#adivina":v===5?"#torneo":location.pathname+location.search)}catch(e){}
+  try{history.replaceState(null,"",v===4?"#adivina":v===5?"#torneo":v===6?"#reto":location.pathname+location.search)}catch(e){}
   $("#back").hidden=v===0||v>=3;if(v===0){au.pause();if(Date.now()-lastCom>6e4)loadCom()}window.scrollTo(0,0);
 }
 $("#back").onclick=()=>showView(0);
-$("#nv0").onclick=()=>showView(0);$("#nv4").onclick=()=>showView(4);$("#nv5").onclick=()=>showView(5);
+$("#nv0").onclick=()=>showView(0);$("#nv4").onclick=()=>showView(4);$("#nv5").onclick=()=>showView(5);$("#nv6").onclick=()=>showView(6);
 $("#new").onclick=()=>showView(1);
 $("#open").onclick=()=>$("#lf").click();
 
@@ -1279,7 +1306,109 @@ $("#tmk").onclick=()=>{
 };
 $("#gmk").onclick=()=>shareImg($("#gout"),slug(G.t)+"-de-oido.png",GAME+" — "+G.t,{icon:GAMEI,name:GAME,list:G.t,label:"Mi resultado",big:G.score+" de "+G.r,small:G.pts+" puntos de "+3*G.r+" posibles"});
 
-if(location.hash==="#acerca")location.replace("acerca.html");else if(location.hash==="#adivina")showView(4);else if(location.hash==="#torneo")showView(5);
+const DKEY="tierbeat_daily_v1",DSEC=[1,2,4,7,11,16],dau=new Audio();
+let D=null,dTm=0,dClock=0;
+const DAILYI='<rect width="64" height="64" rx="14" fill="#171d26"/><rect x="12" y="14" width="40" height="38" rx="7" fill="none" stroke="#9fe8c4" stroke-width="3"/><path d="M12 25h40" stroke="#9fe8c4" stroke-width="3"/><path d="M22 10v8M42 10v8" stroke="#ffbf7f" stroke-width="3" stroke-linecap="round"/><path d="M28 32l11 7-11 7z" fill="#ffdf7f"/>';
+BRS[6]={n:"Reto diario",i:DAILYI,t:"Una canción nueva cada día. Adivínala en 6 intentos."};
+const mxDate=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"America/Mexico_City"}).format(new Date());
+const dayNum=s=>{const [y,m,d]=s.split("-").map(Number);return Math.floor(Date.UTC(y,m-1,d)/864e5)};
+const dayStr=n=>new Date(n*864e5).toISOString().slice(0,10);
+const dFmt=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("es-MX",{day:"numeric",month:"long",year:"numeric"})};
+const dPool=(()=>{
+  const seen=new Set(),a=[];
+  LISTS.forEach(L=>L.s.forEach(x=>{const k=nz(x[0])+"|"+nz(x[1]);if(!seen.has(k)){seen.add(k);a.push({title:x[0],artist:x[1],k})}}));
+  let r=20261031;const rnd=()=>(r=(r*1664525+1013904223)>>>0)/4294967296;
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+})();
+const dLoad=()=>{try{return JSON.parse(localStorage.getItem(DKEY)||"{}")}catch(e){return{}}};
+const dSave=()=>{try{localStorage.setItem(DKEY,JSON.stringify(D.st))}catch(e){}};
+function dInit(){
+  const st=dLoad(),today=mxDate(),day=st.day&&st.day.date===today?st.day:null;
+  D={st,today,song:dPool[dayNum(today)%dPool.length],g:day?day.g:[],done:!!(day&&day.done),win:!!(day&&day.win),pick:null,ready:false};
+  dau.pause();clearTimeout(dTm);clearInterval(dClock);
+  $("#dqi").value="";$("#dsu").textContent="";$("#dgo").disabled=true;$("#dout").textContent="";
+  dRender();
+}
+function dStreak(){const s=D.st;return s.lastWin===D.today||s.lastWin===dayStr(dayNum(D.today)-1)?s.streak||0:0}
+function dRender(){
+  const st=D.st,g=D.g,n=g.length;
+  $("#dst").textContent="Racha: "+dStreak()+" · Mejor racha: "+(st.best||0)+" · Jugadas: "+(st.played||0)+" · Aciertos: "+(st.played?Math.round(100*(st.won||0)/st.played):0)+"%";
+  const sg=$("#dsg");sg.textContent="";
+  for(let i=0;i<6;i++)sg.append(el("i",g[i]?(g[i].t==="win"?"w":g[i].t==="miss"?"m":"s"):(i===n&&!D.done?"c":"")));
+  const hs=$("#dhs");hs.textContent="";
+  g.forEach((x,i)=>hs.append(el("p","hint","Intento "+(i+1)+": "+(x.t==="win"?"¡Correcto!":x.t==="miss"?"Incorrecto — "+x.l:"Saltaste"))));
+  $("#dgm").hidden=D.done;$("#dend").hidden=!D.done;
+  if(D.done){
+    $("#dtt").textContent=D.win?"¡La adivinaste en el intento "+n+"!":"No la adivinaste hoy";
+    const cv=$("#dcv");cv.textContent="";cv.append(tCard(D.song,null));
+    dTick();clearInterval(dClock);dClock=setInterval(dTick,1000);
+  }else{
+    $("#dpl").textContent="Escuchar ("+DSEC[n]+" s)";
+    $("#dsk").textContent=n>=5?"Rendirme":"Saltar (+"+(DSEC[n+1]-DSEC[n])+" s)";
+    $("#dms").textContent=n?"":"Pulsa Escuchar para empezar.";
+  }
+}
+function dTick(){
+  if(mxDate()!==D.today){clearInterval(dClock);dInit();return}
+  const p=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"America/Mexico_City",hourCycle:"h23",hour:"2-digit",minute:"2-digit",second:"2-digit"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const r=86400-(+p.hour*3600+ +p.minute*60+ +p.second),f=v=>String(v).padStart(2,"0");
+  $("#dcn").textContent="Próxima canción en "+f(Math.floor(r/3600))+":"+f(Math.floor(r%3600/60))+":"+f(r%60)+" (hora de México).";
+}
+async function dListen(retry){
+  if(D.done)return;
+  const secs=DSEC[Math.min(D.g.length,5)],ms=$("#dms");
+  if(!D.ready){
+    ms.textContent="Cargando canción…";
+    if(!await freshUrl(D.song)){ms.textContent="No pude cargar la canción de hoy. Revisa tu conexión e inténtalo otra vez.";return}
+    D.ready=true;ms.textContent="";
+  }
+  dau.pause();clearTimeout(dTm);dau.src=D.song.url;let bad=false;
+  await new Promise(r=>{dau.onloadedmetadata=r;dau.onerror=()=>{bad=true;r()};setTimeout(r,6000)});
+  if(bad){
+    if(!retry){D.ready=false;await freshUrl(D.song,true);D.ready=true;return dListen(true)}
+    ms.textContent="No se pudo reproducir la canción. Inténtalo más tarde.";return;
+  }
+  try{dau.currentTime=D.song.start||0}catch(e){}
+  try{await dau.play()}catch(e){ms.textContent="Toca «Escuchar» para reproducir.";return}
+  const b=$("#db");b.style.transition="none";b.style.width="0";void b.offsetWidth;
+  b.style.transition="width "+secs+"s linear";b.style.width="100%";
+  dTm=setTimeout(()=>dau.pause(),secs*1000);
+}
+function dFinish(win){
+  const st=D.st;D.done=true;D.win=win;st.played=(st.played||0)+1;
+  if(win){st.won=(st.won||0)+1;st.streak=st.lastWin===dayStr(dayNum(D.today)-1)?(st.streak||0)+1:1;st.lastWin=D.today;st.best=Math.max(st.best||0,st.streak)}
+  else st.streak=0;
+  st.day={date:D.today,g:D.g,done:true,win};dSave();dRender();
+}
+function dAfter(){
+  dau.pause();clearTimeout(dTm);$("#dqi").value="";$("#dsu").textContent="";$("#dgo").disabled=true;D.pick=null;
+  if(D.g.length>=6){dFinish(false);return}
+  D.st.day={date:D.today,g:D.g,done:false};dSave();dRender();
+}
+$("#dpl").onclick=()=>dListen();
+$("#dsk").onclick=()=>{if(D.done)return;D.g.push({t:"skip"});dAfter()};
+$("#dgo").onclick=()=>{
+  const e=D.pick;if(!e||D.done)return;
+  if(e.k===D.song.k){D.g.push({t:"win"});dau.pause();clearTimeout(dTm);dFinish(true)}
+  else{D.g.push({t:"miss",l:e.title+" — "+e.artist,k:e.k});dAfter()}
+};
+$("#dqi").oninput=()=>{
+  const ks=nz($("#dqi").value.trim()).split(/\s+/).filter(Boolean),box=$("#dsu");
+  box.textContent="";D.pick=null;$("#dgo").disabled=true;
+  if(!ks.length||ks.join("").length<2)return;
+  const used=new Set(D.g.filter(x=>x.k).map(x=>x.k));
+  dPool.filter(e=>!used.has(e.k)&&ks.every(w=>nz(e.title+" "+e.artist).includes(w))).slice(0,6).forEach(e=>{
+    const b=el("button","opt",e.title+" — "+e.artist);
+    b.onclick=()=>{D.pick=e;$("#dqi").value=e.title+" — "+e.artist;box.textContent="";$("#dgo").disabled=false};
+    box.append(b);
+  });
+};
+$("#dqi").onkeydown=e=>{if(e.key==="Enter"&&D.pick)$("#dgo").click()};
+$("#dmk").onclick=()=>shareImg($("#dout"),"reto-diario-"+D.today+".png","Reto diario — TierBeat",{icon:DAILYI,name:"Reto diario",list:dFmt(D.today),label:"Mi resultado",
+  big:D.win?D.g.length+" de 6":"X de 6",small:D.win?"Racha: "+dStreak()+(dStreak()===1?" día":" días"):"No la adivinaste hoy"});
+
+if(location.hash==="#acerca")location.replace("acerca.html");else if(location.hash==="#adivina")showView(4);else if(location.hash==="#torneo")showView(5);else if(location.hash==="#reto")showView(6);
 </script>
 </body>
 </html>
