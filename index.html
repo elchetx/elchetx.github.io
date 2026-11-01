@@ -173,7 +173,7 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
     </div>
   </div>
   <div class="box" id="pb" hidden><b id="pbt"></b><label for="pbn">Tu nombre (opcional)</label><input type="text" id="pbn" maxlength="40"><button class="b" id="pbg">Publicar</button><button class="b alt" id="pbc">Cancelar</button></div>
-  <input type="search" id="q" class="srch" placeholder="Buscar tier lists por título, artista o autor" aria-label="Buscar tier lists" autocomplete="off">
+  <input type="search" id="hq" class="srch" placeholder="Buscar tier lists por título, artista o autor" aria-label="Buscar tier lists" autocomplete="off">
   <div id="qr" hidden></div>
   <div id="com"></div>
   <div id="mn"></div>
@@ -1123,7 +1123,7 @@ const qCards=(items,pick)=>items.map(it=>()=>{
     arts:it.songs.map(x=>x.art).filter(safe).slice(0,4)},it.kind==="m"&&!pick?"mine":"com",act);
 });
 async function runQ(){
-  const q=$("#q").value.trim(),r=$("#qr"),parts=["#com","#mn","#gal"].map($),my=++qTok;
+  const q=$("#hq").value.trim(),r=$("#qr"),parts=["#com","#mn","#gal"].map($),my=++qTok;
   if(q.length<2){r.hidden=true;r.textContent="";parts.forEach(e=>e.hidden=false);return}
   parts.forEach(e=>e.hidden=true);r.hidden=false;r.textContent="";r.append(el("p","nt","Buscando…"));
   const items=qFind(await qItems(),q);if(my!==qTok)return;
@@ -1132,7 +1132,7 @@ async function runQ(){
   grid(r,"Resultados ("+items.length+")",qCards(items,null));
   r.append(el("p","hint","Busqué en tus listas, las de artistas y géneros y las últimas 50 publicadas por la comunidad."));
 }
-$("#q").oninput=()=>{clearTimeout(qTm);qTm=setTimeout(runQ,250)};
+$("#hq").oninput=()=>{clearTimeout(qTm);qTm=setTimeout(runQ,250)};
 $("#gq").oninput=()=>{clearTimeout(gqTm);gqTm=setTimeout(async()=>{
   const q=$("#gq").value.trim(),r=$("#gqr"),d=$("#gsec"),my=++gqTok;
   if(q.length<2){r.hidden=true;d.hidden=false;return}
