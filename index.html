@@ -152,6 +152,12 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 #gmb .hint{margin:10px 0 0}#gmb .b{margin:0}#gmp{margin-top:12px!important}
 .adn{max-width:728px;margin:28px auto;text-align:center;overflow:hidden}
 .adn small{display:block;color:var(--mute);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+
+.ad2{max-width:728px;margin:22px auto;text-align:center;overflow:hidden;min-height:50px}
+.ad2 small,.adnat small{display:block;color:var(--mute);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.adnat{max-width:728px;margin:26px auto;text-align:center}
+.rail{display:none;position:fixed;top:110px;width:160px;height:600px}
+@media(min-width:1340px){.rail{display:block}.rail.l{left:calc(50% - 490px - 176px)}.rail.r{left:calc(50% + 490px + 16px)}}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3114572613314166"
      crossorigin="anonymous"></script>
@@ -165,6 +171,8 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
 <div id="top"><button id="back" hidden>← Inicio</button></div>
 <main>
 <section id="s0" class="on">
+  <div class="rail l" data-ad="v"></div><div class="rail r" data-ad="v"></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div class="hero">
     <h2>Elige una tier list</h2>
     <p>Escucha un fragmento de cada canción y ordénalas de la mejor a la peor.</p>
@@ -176,13 +184,16 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
       <input type="file" id="uf" accept=".json,application/json" hidden>
     </div>
   </div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div class="box" id="pb" hidden><b id="pbt"></b><label for="pbn">Tu nombre (opcional)</label><input type="text" id="pbn" maxlength="40"><button class="b" id="pbg">Publicar</button><button class="b alt" id="pbc">Cancelar</button></div>
   <input type="search" id="hq" class="srch" placeholder="Buscar tier lists por título, artista o autor" aria-label="Buscar tier lists" autocomplete="off">
   <div id="qr" hidden></div>
   <div id="com"></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div id="mn"></div>
+  <div class="adnat" data-ad="n"><small>Publicidad</small></div>
   <div id="gal"></div>
-  <div class="adn"><small>Publicidad</small><script src="anuncios.js"></script></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
 
   <footer class="ft" id="ft" hidden><span><a href="guias.html">Guías</a> · <a href="acerca.html">Acerca de</a> · <a href="privacidad.html">Privacidad</a> · <a href="contacto.html">Contacto</a></span><button class="b" id="don">Apoyar el proyecto</button></footer>
 </section>
@@ -241,13 +252,18 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
   </div>
 </section>
 <section id="s4">
+  <div class="rail l" data-ad="v"></div><div class="rail r" data-ad="v"></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div id="gpick">
     <div class="box"><h2>De Oído</h2>
       <p class="hint">Elige una tier list y escucha un fragmento: primero solo 1 segundo. Si no la reconoces, puedes pedir 3 y luego 5 segundos. Mientras menos escuches, más puntos ganas (3, 2 o 1). Puedes adivinar la canción o el artista.</p></div>
     <div class="box" id="gmb"><button class="b alt" id="gmt">Combinar varias listas</button><p class="hint" id="gms2"></p><button class="b" id="gmp" hidden disabled>Jugar con las seleccionadas</button></div>
+    <div class="ad2" data-ad="b"><small>Publicidad</small></div>
     <input type="search" id="gq" class="srch" placeholder="Buscar una tier list" aria-label="Buscar tier lists" autocomplete="off">
     <div id="gqr" hidden></div>
     <div id="gsec"></div>
+    <div class="adnat" data-ad="n"><small>Publicidad</small></div>
+    <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   </div>
   <div class="box" id="gset" hidden>
     <h2 id="gtt"></h2><p class="hint" id="gtn"></p>
@@ -271,14 +287,20 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
     <button class="b alt" id="gmk">Crear imagen para compartir</button>
     <div class="shot" id="gout"></div>
   </div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
 </section>
 <section id="s5">
+  <div class="rail l" data-ad="v"></div><div class="rail r" data-ad="v"></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div id="tpick">
     <div class="box"><h2>Torneo de canciones</h2>
       <p class="hint">Elige una tier list y enfrenta sus canciones de dos en dos. Escucha cada una, quédate con tu favorita y sigue avanzando hasta tener a la campeona.</p></div>
+    <div class="ad2" data-ad="b"><small>Publicidad</small></div>
     <input type="search" id="tq" class="srch" placeholder="Buscar una tier list" aria-label="Buscar tier lists" autocomplete="off">
     <div id="tqr" hidden></div>
     <div id="tsec"></div>
+    <div class="adnat" data-ad="n"><small>Publicidad</small></div>
+    <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   </div>
   <div class="box" id="tset" hidden>
     <h2 id="ttt"></h2><p class="hint" id="ttn"></p>
@@ -298,11 +320,15 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
     <button class="b alt" id="tmk">Crear imagen para compartir</button>
     <div class="shot" id="tout"></div>
   </div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
 </section>
 <section id="s6">
+  <div class="rail l" data-ad="v"></div><div class="rail r" data-ad="v"></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div class="box"><h2>Reto diario</h2>
     <p class="hint">Una canción nueva cada día, igual para todos (cambia a medianoche, hora de México). Tienes 6 intentos y en cada uno escuchas un fragmento más largo: 1, 2, 4, 7, 11 y 16 segundos.</p>
     <p class="hint" id="dst"></p></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
   <div class="box" id="dgm">
     <div class="dsegs" id="dsg"></div>
     <div class="gbar"><i id="db"></i></div>
@@ -321,10 +347,14 @@ select{width:100%;padding:12px;border-radius:10px;border:2px solid var(--line);b
     <button class="b" id="dmk">Crear imagen para compartir</button>
     <div class="shot" id="dout"></div>
   </div>
+  <div class="adnat" data-ad="n"><small>Publicidad</small></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
+  <div class="ad2" data-ad="b"><small>Publicidad</small></div>
 </section>
 </main>
 
 <div id="m2" class="toast" role="status"></div>
+<script src="anuncios.js" defer></script>
 <script>
 /* ===== COMUNIDAD =====
    Para que todos vean las tier lists publicadas, pega aquí la URL de tu Firebase Realtime Database
@@ -1454,6 +1484,5 @@ $("#dmk").onclick=()=>shareImg($("#dout"),"reto-diario-"+D.today+".png","Reto di
 
 if(location.hash==="#acerca")location.replace("acerca.html");else if(location.hash==="#adivina")showView(4);else if(location.hash==="#torneo")showView(5);else if(location.hash==="#reto")showView(6);
 </script>
-<script data-cfasync="false" src="https://bauval.org/14/72d6a0ccc297c7e063d76d3fc87b3155"></script>
 </body>
 </html>
