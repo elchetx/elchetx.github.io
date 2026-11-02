@@ -7,7 +7,7 @@ if(document.readyState==="loading"){
 }
 /* TierBeat · anuncios del index (Inicio, De Oído, Torneo, Reto diario)
    - Banners: se cargan solo cuando el espacio es visible (así las secciones ocultas no gastan impresiones).
-   - Cada banner vive en su propio iframe para que las 6 copias no se pisen el atOptions.
+   - Se cargan en fila, uno por uno, para que las copias no se pisen el atOptions.
    - Social Bar: un solo script para toda la página. Native: un solo bloque que se mueve a la sección activa. */
 (function(){
   var K={
@@ -19,15 +19,24 @@ if(document.readyState==="loading"){
   var NATIVE_ID="70cbb25b8d18f1478f83a72bcec93e3e";
   var NATIVE="https://bauval.org/21/"+NATIVE_ID;
 
+  /* Los banners se cargan de uno en uno: el código de la red lee la variable global atOptions al ejecutarse,
+     así que cada banner necesita su propio turno para que no se mezclen los tamaños. */
+  var cola=[],ocupado=false;
+  function siguiente(){
+    if(ocupado||!cola.length)return;
+    ocupado=true;
+    var el=cola.shift(),t=el.dataset.ad==="v"?K.v:(innerWidth>=768?K.pc:K.cel),listo=false;
+    function fin(){if(listo)return;listo=true;ocupado=false;siguiente();}
+    window.atOptions={key:t.k,format:"iframe",height:t.h,width:t.w,params:{}};
+    var sc=document.createElement("script");
+    sc.src="https://bauval.org/22/"+t.k;
+    sc.onload=sc.onerror=function(){setTimeout(fin,150)};
+    el.appendChild(sc);
+    setTimeout(fin,4000);
+  }
   function banner(el){
     if(el.dataset.ok)return; el.dataset.ok=1;
-    var t=el.dataset.ad==="v"?K.v:(innerWidth>=768?K.pc:K.cel);
-    var f=document.createElement("iframe");
-    f.width=t.w;f.height=t.h;f.setAttribute("scrolling","no");f.setAttribute("title","Publicidad");
-    f.style.cssText="border:0;display:block;margin:0 auto;max-width:100%;background:transparent";
-    f.srcdoc='<!doctype html><html><body style="margin:0;background:transparent"><script>atOptions={"key":"'+t.k+
-      '","format":"iframe","height":'+t.h+',"width":'+t.w+',"params":{}};<\/script><script src="https://bauval.org/22/'+t.k+'"><\/script></body></html>';
-    el.appendChild(f);
+    cola.push(el);siguiente();
   }
 
   var io="IntersectionObserver" in window?new IntersectionObserver(function(es){
